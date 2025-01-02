@@ -16,7 +16,7 @@ def page_summary_body():
         f"**Project Dataset**\n"
         f"* The dataset represents **kaggle TMDB movie data** "
         f"containing 5000 movies and their revenues, budgets, languages, gengres, production companies, ID,"
-        f"title, cast, crew."
+        f"title, cast, crew.")
      
 
     # Link to README file, so the users can have access to full project documentation
