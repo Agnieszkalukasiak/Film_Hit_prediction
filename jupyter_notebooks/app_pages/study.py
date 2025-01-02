@@ -14,11 +14,10 @@ def page_summary_body():
         f"** Profit**  is the money the film makes on top of the money spent.  " 
     
         f"**Project Dataset**\n"
-        f"* The dataset represents a **customer base from a Telco company** "
-        f"containing individual customer data on the products and services "
-        f"(like internet type, online security, online backup, tech support), "
-        f"account information (like contract type, payment method, monthly charges) "
-        f"and profile (like gender, partner, dependents).")
+        f"* The dataset represents **kaggle TMDB movie data** "
+        f"containing 5000 movies and their revenues, budgets, languages, gengres, production companies, ID,"
+        f"title, cast, crew."
+     
 
     # Link to README file, so the users can have access to full project documentation
     st.write(
