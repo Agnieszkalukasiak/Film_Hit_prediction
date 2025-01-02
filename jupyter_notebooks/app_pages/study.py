@@ -7,11 +7,12 @@ def page_summary_body():
     # text based on README file - "Dataset Content" section
     st.info(
         f"**Project Terms & Jargon**\n"
-        f"* A **customer** is a person who consumes your service or product.\n"
-        f"* A **prospect** is a potential customer.\n"
-        f"* A **churned** customer is a user who has stopped using your product or service.\n "
-        f"* This customer has a **tenure** level, the number of months this person " 
-        f"has used our product/service.\n\n"
+        f"* A **revenue** is the money a film has made in total . \n"
+        f"* A **budget** i the money it takes to produce a film. \n"
+        f"**Gengres** are different types of films. \n "
+        f"**Language** is the language in which the film is made and the actors speak. \n "
+        f"** Profit**  is the money the film makes on top of the money spent.  " 
+    
         f"**Project Dataset**\n"
         f"* The dataset represents a **customer base from a Telco company** "
         f"containing individual customer data on the products and services "
