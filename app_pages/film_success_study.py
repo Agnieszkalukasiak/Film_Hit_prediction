@@ -2,7 +2,7 @@ import plotly.express as px
 import numpy as np
 from feature_engine.discretisation import ArbitraryDiscretiser
 import streamlit as st
-from src.data_management import load_telco_data
+
 
 
 
@@ -11,7 +11,7 @@ import seaborn as sns
 sns.set_style("whitegrid")
 
 
-def film_success_study_body():
+def page_film_success_study_body():
 
     # load data
     df_movies = pd.read_csv('encoded_movies.csv')
