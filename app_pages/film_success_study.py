@@ -63,7 +63,7 @@ def film_success_study_body():
     st.write("---") 
 
         # Revenue
-        st.write(
+    st.write(
         f"* The client is intressted in understanding the overall picture of the film industry. \n "
         f"* It's profitibility and what gengre is the most produced. \n "
     )

@@ -1,15 +1,11 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from src.data_management import load_telco_data, load_pkl_file
-from src.machine_learning.evaluate_clf import clf_performance
 
 
 def page_predictor_pipeline_body():
 
-    version = 'v1'
     # load needed files
-
     engineered_path = "/workspace/Film_Hit_prediction/outputs/datasets/engineered/"
     model_path = "/workspace/Film_Hit_prediction/outputs/models/"
     

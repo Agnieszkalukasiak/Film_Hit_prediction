@@ -1,6 +1,6 @@
 import streamlit as st
 
-def page_predictor_pipeline_body():
+def page_overall_pipeline_body():
     st.write("### ML Pipeline: Movie Revenue Prediction")
 
     with st.expander("1. Data Collection"):
