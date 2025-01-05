@@ -28,79 +28,72 @@ def page_pipeline_overview():
     """)
         
     # Show sample of raw data
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Initial Rows", raw_data_metrics["Initial Rows"])
-    col2.metric("Missing Values", raw_data_metrics["Missing Values"])
-    col3.metric("Features", raw_data_metrics["Features"])
+    st.write("**Dataset Metrics:**")
+    st.write("* Initial Rows: 10,000")
+    st.write("* Missing Values: 15%")
+    st.write("* Features: 23")
 
     # Data Preparation
     st.header("2. Data Preparation")
-    with st.expander("See Details"):
-        st.write("""
-        ### Cleaning Steps:
-        1. **Missing Values**
-           - Removed rows with missing budgets
-           - Imputed missing languages with 'en'
+    st.write("""
+    ### Cleaning Steps:
+    1. **Missing Values**
+        - Removed rows with missing budgets
+        - Imputed missing languages with 'en'
         
-        2. **Outlier Handling**
-           - Removed movies with $0 budget
-           - Filtered extreme budget outliers
+    2. **Outlier Handling**
+        - Removed movies with $0 budget
+        - Filtered extreme budget outliers
         
-        3. **Feature Engineering**
-           - Log transformed budget and revenue
-           - One-hot encoded genres
-           - Label encoded languages
-        """)
+    3. **Feature Engineering**
+        - Log transformed budget and revenue
+        - One-hot encoded genres
+        - Label encoded languages
+    """)
 
     # Modeling
     st.header("3. Model Development")
-    with st.expander("See Details"):
-        st.write("""
-        ### Model Selection:
-        1. **Algorithms Tested**
-           - Linear Regression
-           - Random Forest
-           - XGBoost
+    st.write("""
+    ### Model Selection:
+    1. **Algorithms Tested**
+        - Linear Regression
+        - Random Forest
+        - XGBoost
         
-        2. **Best Model**: Random Forest
-           - Best performance on validation set
-           - Good balance of interpretability
+    2. **Best Model**: Random Forest
+        - Best performance on validation set
+        - Good balance of interpretability
         
-        3. **Hyperparameter Tuning**
-           - Used GridSearchCV
-           - Optimized for R² score
+    3. **Hyperparameter Tuning**
+        - Used GridSearchCV
+        - Optimized for R² score
         """)
 
     # Evaluation
     st.header("4. Model Evaluation")
-    with st.expander("See Details"):
-        eval_metrics = {
-            "R² Score": "0.15",
-            "RMSE": "$1.06",
-            "MAE": "$0.89"
-        }
-        
-        col1, col2, col3 = st.columns(3)
-        col1.metric("R² Score", eval_metrics["R² Score"])
-        col2.metric("RMSE", eval_metrics["RMSE"])
-        col3.metric("MAE", eval_metrics["MAE"])
-
-        st.write("""
-        ### Key Findings:
-        - Budget is the strongest predictor (46.7% importance)
-        - Genre factors like Comedy (4.6%) and Drama (4.4%) are also significant
-        - Model performs best on mainstream budget ranges
-        """)
+    st.write("""
+    ### Evaluation Metrics:
+    * "R² Score": "0.15",
+    * "RMSE": "$1.06",
+    * "MAE": "$0.89"
+    
+    ### Key Findings:
+    - Budget is the strongest predictor (46.7% importance)
+    - Genre factors like Comedy (4.6%) and Drama (4.4%) are also significant
+    - Model performs best on mainstream budget ranges
+    """)
+    
 
     # Pipeline Visualization
     st.header("5. Complete Pipeline Flow")
-    pipeline_diagram = """
-    graph TD
-        A[Raw TMDB Data] --> B[Data Cleaning]
-        B --> C[Feature Engineering]
-        C --> D[Model Training]
-        D --> E[Model Evaluation]
-        E --> F[Model Deployment]
-        F --> G[Prediction Interface]
-    """
-    st.mermaid(pipeline_diagram)
+    st.write("""
+    **Pipeline Steps:**
+    1. Raw TMDB Data ➡️
+    2. Data Cleaning ➡️
+    3. Data Exploration/Correlation study ➡️
+    3. Feature Engineering ➡️
+    4. Model Training ➡️
+    5. Model Evaluation ➡️
+    6. Model Deployment ➡️
+    7. Prediction Interface
+    """)
