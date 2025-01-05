@@ -23,57 +23,53 @@ def page_predictor_pipeline_body():
 
     # display pipeline training summary conclusions
         st.info(
-            f"* The pipeline was tuned aiming at least 0.80 Recall on 'Yes Churn' class, "
-            f"since we are interested in this project in detecting a potential churner. \n"
-            f"* The pipeline performance on train and test set is 0.90 and 0.85, respectively."
-        )
+    f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
+    f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
+    f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
+    f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
+    f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
+    )
+        
 
         st.write("### ML Pipeline Steps")
 
     # Sample input
         st.header("1. Enter Movie Details")
 
-        col1, col2 = st.columns(2)
-        with col1:
-            budget = st.number_input("Movie Budget ($)", 
-                                   min_value=100000, 
-                                   max_value=500000000, 
-                                   value=1000000,
-                                   step=100000,
-                                   format="%d")
+       
+        budget = st.number_input("Movie Budget ($)", 
+                                min_value=100000, 
+                                max_value=500000000, 
+                                value=1000000,
+                                step=100000,
+                                format="%d")
    
-            language = st.selectbox("Movie Language", 
-                                  options=le_language.classes_,
-                                  index=list(le_language.classes_).index('en'))
+        language = st.selectbox("Movie Language", 
+                                options=le_language.classes_,
+                                index=list(le_language.classes_).index('en'))
         
-        with col2:
-            all_genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime',
-                         'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
-                         'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
-                         'TV Movie', 'Thriller', 'War', 'Western', 'Foreign']
+        all_genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime',
+                    'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
+                    'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
+                    'TV Movie', 'Thriller', 'War', 'Western', 'Foreign']
             
-            genres = st.multiselect("Select Genres", 
-                                  options=all_genres,
-                                  default=['Action'])
+        genres = st.multiselect("Select Genres", 
+                    options=all_genres,
+                    default=['Action']
+
         #Feature processing
         if st.button("Predict Revenue"):
             st.header("2. Feature Processing")
             
             # Budget processing
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.write("Original Budget:")
-                st.write(f"${budget:,.2f}")
+            st.write("Budget Processing:")
+            st.write(f"Original Budget:${budget:,.2f}")
             
             budget_logged = np.log1p(budget)
-            with col2:
-                st.write("Log Transformed:")
-                st.write(f"{budget_logged:.2f}")
-            
+            st.write(f"Log Transformed: {budget_logged:.2f}")
+               
             budget_scaled = scaler.transform([[budget_logged]])[0][0]
-            with col3:
-                st.write("Scaled Budget:")
-                st.write(f"{budget_scaled:.2f}")
+            st.write("Scaled Budget:{budget_scaled:.2f}")
 
             # Language processing
             st.write("Language Encoding:")
@@ -90,6 +86,7 @@ def page_predictor_pipeline_body():
                 **genre_dict
             }
             input_df = pd.DataFrame([features])
+
             # 4. Make Prediction
             st.header("3. Prediction Results")
             
@@ -121,6 +118,7 @@ def page_predictor_pipeline_body():
             
             # 6. Visualizations
             st.header("5. Model Visualizations")
+
             
             # Feature Importance Plot
             st.subheader("Feature Importance")
@@ -134,21 +132,79 @@ def page_predictor_pipeline_body():
             plt.title("Top 10 Most Important Features")
             st.pyplot(fig)
             plt.close()
-            
-            # Sample Scatter Plot
-            st.subheader("Actual vs Predicted Revenue")
-            fig, ax = plt.subplots(figsize=(10, 6))
-            plt.scatter(y_test_final, y_pred, alpha=0.5)
-            plt.plot([y_test_final.min(), y_test_final.max()], 
-                    [y_test_final.min(), y_test_final.max()], 
-                    'r--', lw=2)
-            plt.xlabel('Actual Revenue')
-            plt.ylabel('Predicted Revenue')
-            correlation = np.corrcoef(y_test_final.squeeze(), y_pred)[0,1]
-            plt.text(0.05, 0.95, f'Correlation: {correlation:.2f}', 
-                    transform=plt.gca().transAxes)
+        
+        with tab2:
+            st.subheader("Residual Analysis")
+        # Calculate residuals
+            residuals = y_test_final - y_pred
+    
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+    
+        # Scatter plot of residuals
+            ax1.scatter(y_pred, residuals, alpha=0.5)
+            ax1.axhline(y=0, color='r', linestyle='--')
+            ax1.set_xlabel('Predicted Revenue')
+            ax1.set_ylabel('Residuals')
+            ax1.set_title('Residuals vs Predicted Values')
+    
+        # Distribution of residuals
+            sns.histplot(residuals, kde=True, ax=ax2)
+            ax2.set_title('Distribution of Residuals')
+            ax2.set_xlabel('Residual Value')
+    
+            plt.tight_layout()
             st.pyplot(fig)
             plt.close()
+        
+        with tab3:
+            st.subheader("Distribution of Predictions")
+            fig, ax = plt.subplots(figsize=(10, 6))
+    
+        # Plot actual and predicted distributions
+            sns.kdeplot(data=y_test_final.squeeze(), label='Actual Revenue', ax=ax)
+            sns.kdeplot(data=y_pred, label='Predicted Revenue', ax=ax)
+            plt.title('Distribution of Actual vs Predicted Revenue')
+            plt.xlabel('Revenue')
+            plt.legend()
+    
+        st.pyplot(fig)
+        plt.close()
+
+    with tab4:
+        st.subheader("ROI Analysis")
+    
+    # ROI for actual and predicted values
+        roi_actual = ((y_test_final - X_test_final['budget_scaled']) / X_test_final['budget_scaled']) * 100
+        roi_pred = ((y_pred - X_test_final['budget_scaled']) / X_test_final['budget_scaled']) * 100
+    
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+    
+    # ROI Distribution
+        sns.histplot(data=roi_pred, kde=True, ax=ax1)
+        ax1.set_title('Distribution of Predicted ROI')
+        ax1.set_xlabel('ROI (%)')
+    
+    # ROI Scatter
+        ax2.scatter(roi_actual, roi_pred, alpha=0.5)
+        ax2.plot([roi_actual.min(), roi_actual.max()], 
+                [roi_actual.min(), roi_actual.max()], 
+                'r--', lw=2)
+        ax2.set_xlabel('Actual ROI (%)')
+        ax2.set_ylabel('Predicted ROI (%)')
+        ax2.set_title('Predicted vs Actual ROI')
+    
+        plt.tight_layout()
+        st.pyplot(fig)
+        plt.close()
+
+    # explanatory text
+    st.write("""
+    ### Visualization Insights:
+    * The Feature Importance plot shows which factors most strongly influence revenue predictions
+    * The Residual Analysis helps us understand where our model might be over or under-predicting
+    * The Distribution comparison shows how well our predictions match the actual revenue distribution
+    * The ROI Analysis provides insights into the financial performance predictions
+    """)
     
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
