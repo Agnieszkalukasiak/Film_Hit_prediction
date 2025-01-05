@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 def page_predictor_pipeline_body():
 
     # load needed files
-    engineered_path = "/workspace/Film_Hit_prediction/outputs/datasets/engineered/"
-    model_path = "/workspace/Film_Hit_prediction/outputs/models/"
+    engineered_path = "outputs/datasets/engineered"
+    model_path = "outputs/models"
     
     le_language = joblib.load(engineered_path + 'language_encoder.joblib')
     scaler = joblib.load(engineered_path + 'budget_scaler.joblib')
@@ -23,7 +23,6 @@ def page_predictor_pipeline_body():
         f"* The pipeline performance on train and test set is 0.90 and 0.85, respectively."
     )
 
-def page_predictor_pipeline_body():
    engineered_path = "/workspace/Film_Hit_prediction/outputs/datasets/engineered/"
    model_path = "/workspace/Film_Hit_prediction/outputs/models/"
 
