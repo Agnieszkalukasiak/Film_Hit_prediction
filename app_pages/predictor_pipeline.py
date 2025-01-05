@@ -74,6 +74,89 @@ def page_predictor_pipeline_body():
             with col3:
                 st.write("Scaled Budget:")
                 st.write(f"{budget_scaled:.2f}")
+
+            # Language processing
+            st.write("Language Encoding:")
+            language_encoded = le_language.transform([language])[0]
+            st.write(f"'{language}' encoded as: {language_encoded}")
+            
+            # Genre processing
+            genre_dict = {genre: 1 if genre in genres else 0 for genre in all_genres}
+            
+            # Create feature array
+            features = {
+                'language_encoded': language_encoded,
+                'budget_scaled': budget_scaled,
+                **genre_dict
+            }
+            input_df = pd.DataFrame([features])
+            # 4. Make Prediction
+            st.header("3. Prediction Results")
+            
+            predicted_revenue = model.predict(input_df)[0]
+            predicted_revenue = scaler_y.inverse_transform([[predicted_revenue]])[0][0]
+            final_revenue = budget * (1.5 + predicted_revenue)
+            
+            profit_loss = final_revenue - budget
+            roi = (profit_loss / budget) * 100 if budget > 0 else 0
+            
+            # Display results
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Predicted Revenue", f"${final_revenue:,.2f}")
+            with col2:
+                st.metric("Profit/Loss", f"${profit_loss:,.2f}")
+            with col3:
+                st.metric("ROI", f"{roi:.1f}%")
+            
+            # 5. Model Performance Metrics
+            st.header("4. Model Performance Metrics")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("R² Score", "0.150")
+            with col2:
+                st.metric("MAE", "$0.89")
+            with col3:
+                st.metric("RMSE", "$1.06")
+            
+            # 6. Visualizations
+            st.header("5. Model Visualizations")
+            
+            # Feature Importance Plot
+            st.subheader("Feature Importance")
+            fig, ax = plt.subplots(figsize=(10, 6))
+            feature_importance = pd.DataFrame({
+                'Feature': input_df.columns,
+                'Importance': model.feature_importances_
+            }).sort_values('Importance', ascending=False)
+            
+            sns.barplot(data=feature_importance.head(10), x='Importance', y='Feature')
+            plt.title("Top 10 Most Important Features")
+            st.pyplot(fig)
+            plt.close()
+            
+            # Sample Scatter Plot
+            st.subheader("Actual vs Predicted Revenue")
+            fig, ax = plt.subplots(figsize=(10, 6))
+            plt.scatter(y_test_final, y_pred, alpha=0.5)
+            plt.plot([y_test_final.min(), y_test_final.max()], 
+                    [y_test_final.min(), y_test_final.max()], 
+                    'r--', lw=2)
+            plt.xlabel('Actual Revenue')
+            plt.ylabel('Predicted Revenue')
+            correlation = np.corrcoef(y_test_final.squeeze(), y_pred)[0,1]
+            plt.text(0.05, 0.95, f'Correlation: {correlation:.2f}', 
+                    transform=plt.gca().transAxes)
+            st.pyplot(fig)
+            plt.close()
+    
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
+        st.write("Debug info:")
+        st.write(f"Current working directory: {os.getcwd()}")
+
+if __name__ == "__main__":
+    page_predictor_pipeline_body()
        
 
 
