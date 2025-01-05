@@ -56,22 +56,20 @@ def page_predictor_body():
             st.header("Feature Processing")
             
         # Budget processing
-            budget_logged = np.log1p(budget)
-            budget_scaled = scaler.transform([[budget_logged]])[0][0]
+            st.write("Budget Processing:")
+            st.write(f"Original Budget:${budget:,.2f}")   
 
+            budget_logged = np.log1p(budget)
+            st.write(f"Log Transformed: {budget_logged:.2f}")
+
+            budget_scaled = scaler.transform([[budget_logged]])[0][0]
+            st.write("Scaled Budget: {budget_scaled:.2f}")
                 
-        
-        # Show processing steps in an expander
-            with st.status("See processing details"):
-                st.write("Budget Processing:")
-                st.write(f"Original Budget:${budget:,.2f}")             
-                st.write(f"Log Transformed: {budget_logged:.2f}")
-                st.write("Scaled Budget:{budget_scaled:.2f}")
 
         # Language processing
-                st.write("Language Encoding:")
-                language_encoded = le_language.transform([language])[0]
-                st.write(f"'{language}' encoded as: {language_encoded}")
+            st.write("Language Encoding:")
+            language_encoded = le_language.transform([language])[0]
+            st.write(f"'{language}' encoded as: {language_encoded}")
             
         # Genre processing
             genre_dict = {genre: 1 if genre in genres else 0 for genre in all_genres}
@@ -95,24 +93,20 @@ def page_predictor_body():
             roi = (profit_loss / budget) * 100 if budget > 0 else 0
             
         # Display results
-            col1, col2, col3 = st.columns(3)
-            col1.metric("Predicted Revenue", f"${final_revenue:,.2f}")
-            col2.metric("Profit/Loss", f"${profit_loss:,.2f}")
-            col3.metric("ROI", f"{roi:.1f}%")
+            if profit_loss > 0:
+                st.success(f"""
+                    Predicted Revenue: ${final_revenue:,.2f}
+                    Profit: ${profit_loss:,.2f}
+                    ROI: {roi:.1f}%
+                """)
+            else:
+                st.error(f"""
+                    Predicted Revenue: ${final_revenue:,.2f}
+                    Loss: ${profit_loss:,.2f}
+                    ROI: {roi:.1f}%
+                """)
 
             
-        # Feature Importance for current prediction
-            st.subheader("Feature Importance")
-            fig, ax = plt.subplots(figsize=(10, 6))
-            feature_importance = pd.DataFrame({
-                'Feature': input_df.columns,
-                'Importance': model.feature_importances_
-            }).sort_values('Importance', ascending=False)
-            
-            sns.barplot(data=feature_importance.head(10), x='Importance', y='Feature')
-            plt.title("Top 10 Most Important Features")
-            st.pyplot(fig)
-            plt.close()
      
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
