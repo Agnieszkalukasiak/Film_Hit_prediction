@@ -22,8 +22,8 @@ def page_predictor_body():
 
         # Introduction
         st.info(
-            f"* The client is interested in predicting the revenue of a given film based on its budget, language, and genre. \n"
-            f"* Additionally the clien is intressted if the film will break even. \n"
+            f"* The client is interested in predicting the revenue, profit and ROI, of a film based on its budget, language, and genre. \n"
+            
         )
 
         # Input Section
@@ -63,7 +63,7 @@ def page_predictor_body():
             st.write(f"Log Transformed: {budget_logged:.2f}")
 
             budget_scaled = scaler.transform([[budget_logged]])[0][0]
-            st.write("Scaled Budget: {budget_scaled:.2f}")     
+            st.write(f"Scaled Budget: {budget_scaled:.2f}")     
 
             # Language processing
             st.write("Language Encoding:")
