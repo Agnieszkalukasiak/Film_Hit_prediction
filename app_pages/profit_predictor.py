@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import joblib
 
-def page_Profit_predictor_body():
+def page_profit_predictor_body():
     st.write("### Movie Revenue Predictor")
     st.info("Predict movie revenue and profitability based on budget, language and genre.")
     
