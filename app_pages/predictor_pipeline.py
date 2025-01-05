@@ -9,45 +9,29 @@ def page_pipeline_overview():
 
 
 # display pipeline training summary conclusions
-    with tab1:
-        st.info(
-            f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
-            f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
-            f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
-            f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
-            f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
-            )
+    
+    st.info(
+        f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
+        f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
+        f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
+        f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
+        f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
+        )
 
     # Data Understanding
-    st.header("1. Data Loading and Understanding")
-    with st.expander("See Details"):
-        st.write("""
-        - **Source Data**: TMDB Movie Dataset
-        - **Initial Features**: 23 columns including budget, revenue, genres
-        - **Initial Rows**: 10,000 movie records
-        - **Time Period**: 1990-2023
-        """)
-
-    # Data Understanding
-    st.header("1. Data Loading and Understanding")
-    with st.expander("See Details"):
-        st.write("""
-        - **Source Data**: TMDB Movie Dataset
-        - **Initial Features**: 23 columns including budget, revenue, genres
-        - **Initial Rows**: 10,000 movie records
-        - **Time Period**: 1990-2023
-        """)
+    st.header("Data Loading and Understanding")
+    st.write("""
+    - **Source Data**: TMDB Movie Dataset
+    - **Initial Features**: 23 columns including budget, revenue, genres
+    - **Initial Rows**: 10,000 movie records
+    - **Time Period**: 1990-2023
+    """)
         
-        # Show sample of raw data
-        raw_data_metrics = {
-            "Initial Rows": "10,000",
-            "Missing Values": "15%",
-            "Features": "23"
-        }
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Initial Rows", raw_data_metrics["Initial Rows"])
-        col2.metric("Missing Values", raw_data_metrics["Missing Values"])
-        col3.metric("Features", raw_data_metrics["Features"])
+    # Show sample of raw data
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Initial Rows", raw_data_metrics["Initial Rows"])
+    col2.metric("Missing Values", raw_data_metrics["Missing Values"])
+    col3.metric("Features", raw_data_metrics["Features"])
 
     # Data Preparation
     st.header("2. Data Preparation")
