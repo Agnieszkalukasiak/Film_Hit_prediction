@@ -19,25 +19,23 @@ def page_analysis_body():
         f"This insight will be used by the survey team for further discussions and investigations."
     )
 
-
-def page_analysis_body():
     st.write("### Movie Revenue Analysis")
 
     # Load visualization PNGs from your figures folder
-    with st.expander("Budget vs Revenue Analysis"):
-        st.image("figures/budget_revenue_correlation.png")
+    if st.checkbox("Budget vs Revenue Analysis"):
+        st.image("outputs/figures/Budget_vs_Revenue_scatter_points.png")
         st.write("Key findings about budget-revenue relationship")
 
-    with st.expander("Language Analysis"):
-        st.image("figures/language_distribution.png")
+    if st.checkbox("Language Analysis"):
+        st.image("outputs/figures/Average_Revenue_by_Language.png")
         st.write("Distribution of movies by language and their performance")
 
-    with st.expander("Genre Analysis"):
-        st.image("figures/genre_performance.png")
+    if st.checkbox("Genre Analysis"):
+        st.image("outputs/figures/Genre_correlation_ with_ Revenue_plot.png")
         st.write("Analysis of different genres and their revenue patterns")
 
-    with st.expander("Feature Importance"):
-        st.image("figures/feature_importance.png")
+    if st.checkbox("Feature Importance"):
+        st.image("outputs/figures/feature_revenue_correlations_barplot.png")
         st.write("Most important features for predicting revenue")
 
   
