@@ -85,8 +85,7 @@ def page_predictor_body():
             st.header("Prediction Results")
             
             predicted_revenue = model.predict(input_df)[0]
-            predicted_revenue = scaler_y.inverse_transform([[predicted_revenue]])[0][0]
-            final_revenue = budget * (1.5 + predicted_revenue)
+            final_revenue = scaler_y.inverse_transform([[predicted_revenue]])[0][0] * budget / 10
             
             profit_loss = final_revenue - budget
             roi = (profit_loss / budget) * 100 if budget > 0 else 0
