@@ -56,18 +56,24 @@ def page_pipeline_overview():
     st.write("""
     ### Model Selection:
     1. **Algorithms Tested**
-        - Linear Regression
-        - Random Forest
-        - XGBoost
+       - Linear Regression
+       - Ridge
+       - Lasso
+       - Random Forest
+       - Gradient Boosting
         
-    2. **Best Model**: Random Forest
-        - Best performance on validation set
-        - Good balance of interpretability
-        
-    3. **Hyperparameter Tuning**
-        - Used GridSearchCV
-        - Optimized for R² score
-        """)
+    2. **Hyperparameter Optimization**
+       - GridSearchCV with cross-validation
+       - Random Forest params: depths 10-30, estimators 100-500
+       - Gradient Boosting params: learning rates 0.01-0.3
+    
+    3. ** Best Model: Gradient Boosting Regressor
+    **Parameters**:
+       - n_estimators: [100, 200, 500]
+       - learning_rate: [0.01, 0.1, 0.3]
+       - max_depth: [3, 5, 7]
+       - subsample: [0.8, 0.9, 1.0]
+    """)
 
     # Evaluation
     st.header("4. Model Evaluation")
