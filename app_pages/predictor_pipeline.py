@@ -67,7 +67,7 @@ def page_pipeline_overview():
        - Random Forest params: depths 10-30, estimators 100-500
        - Gradient Boosting params: learning rates 0.01-0.3
     
-    3. ** Best Model: Gradient Boosting Regressor
+    3. ** Best Model: Random Forest Regressor
     **Parameters**:
        - n_estimators: [100, 200, 500]
        - learning_rate: [0.01, 0.1, 0.3]
