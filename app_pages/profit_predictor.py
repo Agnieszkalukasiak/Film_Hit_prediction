@@ -49,7 +49,8 @@ def page_predictor_body():
         st.write("Enter movie details:")
         
         # Basic movie info
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2) 
+
         
         with col1:
             budget = st.number_input('Budget ($)', min_value=0, value=150000000)
@@ -60,7 +61,7 @@ def page_predictor_body():
             language = st.selectbox('Language', transform_data['encoders_and_filters']['language_encoder'].classes_)
             # Get countries
             production_country = st.selectbox('Production Country', 
-                                           transform_data['encoders_and_filters']['frequent_countries'])
+                                           transform_data['encoders_and_filters']['frequent_countries']+ ['Other'])
         
         # Genre selection (multiple)
         genres = transform_data['genre_columns']
@@ -68,20 +69,20 @@ def page_predictor_body():
         
         # Production company
         production_company = st.selectbox('Production Company', 
-                                        transform_data['encoders_and_filters']['frequent_companies'])
+                                        transform_data['encoders_and_filters']['frequent_companies']+ ['Other'])
         
         # Cast and Crew
         st.subheader('Cast and Crew')
         col3, col4 = st.columns(2)
         
         with col3:
-            actor1 = st.selectbox('Lead Actor', top_actors['columns'])
-            actor2 = st.selectbox('Supporting Actor', top_actors['columns'])
-            director = st.selectbox('Director', top_directors['columns'])
+            actor1 = st.selectbox('Lead Actor', top_actors['columns']+ ['Other'])
+            actor2 = st.selectbox('Supporting Actor', top_actors['columns']+ ['Other'])
+            director = st.selectbox('Director', top_directors['columns']+ ['Other'])
             
         with col4:
-            writer = st.selectbox('Writer', top_writers['columns'])
-            producer = st.selectbox('Producer', top_producers['columns'])
+            writer = st.selectbox('Writer', top_writers['columns']+ ['Other'])
+            producer = st.selectbox('Producer', top_producers['columns']+ ['Other'])
         
         if st.button("Predict Revenue"):
             try:
