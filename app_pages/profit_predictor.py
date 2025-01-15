@@ -21,6 +21,9 @@ def load_data():
     # Load feature scaler
     with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
         feature_scaler = pickle.load(f)
+    
+    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl', 'rb') as f:
+        encoders_and_filters = pickle.load(f)
         
     # Load top revenue data
     with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl', 'rb') as f:
@@ -31,6 +34,7 @@ def load_data():
         top_writers = pickle.load(f)
     with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl', 'rb') as f:
         top_producers = pickle.load(f)
+
         
     return model, transform_data, feature_scaler, top_actors, top_directors, top_writers, top_producers
 
@@ -144,10 +148,5 @@ def page_predictor_body():
         st.error(f"Error loading required data: {str(e)}")
         st.info("Please ensure all required files are available.")
 
-if __name__ == "__main__":
-    st.set_page_config(
-        page_title="Movie Revenue Predictor",
-        page_icon="🎬",
-        layout="wide"
-    )
+
     page_predictor_body()

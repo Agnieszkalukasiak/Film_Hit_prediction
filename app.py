@@ -11,7 +11,7 @@ from app_pages.film_success_study import page_film_success_study_body
 
 
 # Create an instance of the MultiPage app
-app = MultiPage(app_name="My Application")  
+app = MultiPage(app_name="Movie Revenue Predictor 🎬")
 
 # Add your app pages here
 app.add_page("Quick Project Summary", page_project_summary_body)
