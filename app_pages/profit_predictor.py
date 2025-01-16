@@ -7,43 +7,53 @@ import numpy as np
 import seaborn as sns 
 import pickle
 
-
+from prediction_utils import predict_movie_revenue
 
 def load_data():
     """Load all necessary models and data"""
-    # Load the model
-    model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250115.joblib')
-    
-    # Load transformation data
-    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
-        transform_data = pickle.load(f)
-    
-    # Load feature scaler
-    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
-        feature_scaler = pickle.load(f)
-    
-    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl', 'rb') as f:
-        encoders_and_filters = pickle.load(f)
+    try:
+        # Load the model
+        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250115.joblib')
         
-    # Load top revenue data
-    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl', 'rb') as f:
-        top_actors = pickle.load(f)
-    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl', 'rb') as f:
-        top_directors = pickle.load(f)
-    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl', 'rb') as f:
-        top_writers = pickle.load(f)
-    with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl', 'rb') as f:
-        top_producers = pickle.load(f)
+        # Load transformation data
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
+            transform_data = pickle.load(f)
+        
+        # Load feature scaler
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
+            feature_scaler = pickle.load(f)
 
-        
-    return model, transform_data, feature_scaler, top_actors, top_directors, top_writers, top_producers
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/predict_movie_revenue.pkl', 'rb') as f:
+            predict_movie_revenue = pickle.load(f)
+            
+        # Load top revenue data
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl', 'rb') as f:
+            top_actors = pickle.load(f)
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl', 'rb') as f:
+            top_directors = pickle.load(f)
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl', 'rb') as f:
+            top_writers = pickle.load(f)
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl', 'rb') as f:
+            top_producers = pickle.load(f)
+            
+        return (model, transform_data, feature_scaler, predict_movie_revenue, 
+                top_actors, top_directors, top_writers, top_producers)
+                
+    except Exception as e:
+        st.error(f"Error loading data: {str(e)}")
+        return None
 
 def page_predictor_body():
     st.title('Movie Revenue Predictor 🎬')
     
     try:
         # Load all required data
-        model, transform_data, feature_scaler, top_actors, top_directors, top_writers, top_producers = load_data()
+        data = load_data()
+        if data is None:
+            return
+            
+        (model, transform_data, feature_scaler, predict_movie_revenue, 
+         top_actors, top_directors, top_writers, top_producers) = data
         
         # Create form
         st.write("Enter movie details:")
@@ -62,7 +72,10 @@ def page_predictor_body():
             # Get countries
             production_country = st.selectbox('Production Country', 
                                            transform_data['encoders_and_filters']['frequent_countries']+ ['Other'])
-        
+            if production_country == 'Other':
+                production_country = st.text_input('Enter Production Country Name')
+
+
         # Genre selection (multiple)
         genres = transform_data['genre_columns']
         selected_genres = st.multiselect('Select Genres', genres)
@@ -70,6 +83,8 @@ def page_predictor_body():
         # Production company
         production_company = st.selectbox('Production Company', 
                                         transform_data['encoders_and_filters']['frequent_companies']+ ['Other'])
+        if production_company == 'Other':
+            production_company = st.text_input('Enter Production Company Name')
         
         # Cast and Crew
         st.subheader('Cast and Crew')
@@ -77,12 +92,26 @@ def page_predictor_body():
         
         with col3:
             actor1 = st.selectbox('Lead Actor', top_actors['columns']+ ['Other'])
+
+            if actor1 == 'Other':
+                actor1 = st.text_input('Enter Lead Actor Name')
+
             actor2 = st.selectbox('Supporting Actor', top_actors['columns']+ ['Other'])
+            if actor2 == 'Other':
+                actor2 = st.text_input('Enter Supporting Actor Name')
+
             director = st.selectbox('Director', top_directors['columns']+ ['Other'])
+            if director == 'Other':
+                director = st.text_input('Enter Director Name')
             
         with col4:
             writer = st.selectbox('Writer', top_writers['columns']+ ['Other'])
+            if writer == 'Other':
+                writer = st.text_input('Enter Writer Name')
+
             producer = st.selectbox('Producer', top_producers['columns']+ ['Other'])
+            if producer == 'Other':
+                producer = st.text_input('Enter Producer Name')
         
         if st.button("Predict Revenue"):
             try:
