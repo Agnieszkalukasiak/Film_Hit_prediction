@@ -18,9 +18,6 @@ def load_data():
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
             transform_data = pickle.load(f)
 
-        # Load feature scaler
-        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/predict_movie_revenue.pkl', 'rb') as f:
-            feature_scaler = pickle.load(f)
         
         # Load feature scaler
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
@@ -43,6 +40,7 @@ def load_data():
         st.error(f"Error loading data: {str(e)}")
         return None
 
+
 def page_predictor_body():
     st.title('Movie Revenue Predictor 🎬')
     
@@ -52,7 +50,7 @@ def page_predictor_body():
         if data is None:
             return
             
-        (model, transform_data, feature_scaler, predict_movie_revenue, 
+        (model, transform_data, feature_scaler,
          top_actors, top_directors, top_writers, top_producers) = data
         
         # Create form
@@ -61,7 +59,6 @@ def page_predictor_body():
         # Basic movie info
         col1, col2 = st.columns(2) 
 
-        
         with col1:
             budget = st.number_input('Budget ($)', min_value=0, value=150000000)
             runtime = st.number_input('Runtime (minutes)', min_value=0, value=120)

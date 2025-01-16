@@ -6,12 +6,23 @@ def page_project_summary_body():
     # text based on README file - "Dataset Content" section
     st.info(
         f"**Project Terms & Jargon**\n"
-        f"* **Revenue** : The total money a film has earned. . \n"
+        f"* **Revenue** : The total money a film has earned. \n"
         f"* **Budget**: The amount of money required to produce a film. \n"
-        f"* **Genres**: Different categories or types of films.\n "
-        f"* **Language**: The language in which the film is made and the actors speak.\n "
-        f"* ** Profit**: The money a film earns after covering production costs.\n"
-    
+        f"* **Genres**: Different categories or types of films. \n"
+        f"* **Language**: The language in which the film is made and the actors speak. \n"
+        f"* **Profit**: The money a film earns after covering production costs. \n"
+        f"* **Popularity**: A metric representing how well-known or widely recognized a film is among audiences.\n"
+        f"* **Runtime**: The total duration of the film, usually measured in minutes.\n"
+        f"* **Production Country**: The country where the film is produced or primarily filmed.\n"
+        f"* **Production Company**: The company or studio responsible for producing and distributing the film.\n"
+        f"* **Director**: The person who directs the artistic and creative aspects of the film, guiding the cast and crew.\n"
+        f"* **Cast**: The group of actors who perform in the film, including lead and supporting roles.\n"
+        f"* **Writer**: The person or group of people who write the script or screenplay for the film.\n"
+        f"* **Producer**: The individual or company responsible for overseeing the production of the film, from conception to completion.\n"
+        f"* **Greenlight**: The moment a film is cleared for starting the production process, signifying that all necessary approvals, funding, and logistics are in place.\n"
+        f"* **Above the line positions**: These are the key creative roles (like **Writer**, **Producer**, **Director**) that are determined before production begins." 
+        f"They are responsible for the overall creative vision and strategic direction of the film.\n"
+
         f"**Project Dataset**\n"
         f"* The dataset represents **Kaggle's TMDB movie data**, "
         f"containing information for 5,000 movies, including their revenues, budgets, languages, genres, production companies,"
@@ -21,15 +32,12 @@ def page_project_summary_body():
     # Link to README file, so the users can have access to full project documentation
     st.write(
         f"* For additional information, please visit and **read** the "
-        f"[Project README file](https://github.com/Code-Institute-Solutions/churnometer).")
+        f"[Project README filfit e](https://github.com/Code-Institute-Solutions/churnometer).")
     
 
     # copied from README file - "Business Requirements" section
     st.success(
-        f"The project has 2 business requirements:\n"
-        f"* 1. The client is interested in understanding the corelation between revenue and budget, language and gengre,"
-        f"so that they can learn how these variables correlate with revenue.\n"
-        f"* 2. The client is interested in predicting the revenue and profit of a film based on genre, language, and budget."
-        )
-
-        
+        f"**The project has 2 business requirements**\n"
+        f"* 1. The client is interested in predicting the **revenue** and **profit** of a film before the **greenlight**.\n "
+        f"* 2. The client is interested in understanding the correlation between the **variables** available at the time of production and the film's **revenue**."
+        f"To be able to better assess whether a film presents a good **investment opportunity**.\n")
