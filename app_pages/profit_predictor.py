@@ -215,12 +215,6 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         traceback.print_exc()
         return None
 
-# Save the function
-with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/predict_movie_revenue.pkl', 'wb') as f:
-    pickle.dump(predict_movie_revenue, f)
-
-
-
 
 def page_predictor_body():
     st.title('Movie Revenue Predictor 🎬')
@@ -314,13 +308,16 @@ def page_predictor_body():
                     col1, col2, col3 = st.columns(3)
                     
                     with col1:
-                        st.metric(label="Predicted Revenue", value=f"${prediction['revenue']:,.2f}")
+                        st.metric(label="Predicted Revenue", value=f"${int(prediction['revenue']):,}")
                     with col2:
-                        st.metric(label="Profit/Loss", value=f"${prediction['profit']:,.2f}", 
-                                delta=f"${prediction['profit']:,.2f}")
+                        st.metric(label="Profit/Loss",
+                            value=f"${int(prediction['profit']):,}",
+                            delta=f"${int(prediction['profit']):,}") 
                     with col3:
-                        st.metric(label="ROI", value=f"{prediction['roi']:.1f}%", 
-                                delta=f"{prediction['roi']:.1f}%")
+                        st.metric(label="ROI",
+                            value=f"{prediction['roi']:.0f}%",
+                            delta=f"{prediction['roi']:.0f}%")
+        
                         
                     if prediction['is_profitable']:
                         st.success("🎉 This movie is predicted to be profitable!")
@@ -330,10 +327,10 @@ def page_predictor_body():
                     with st.expander("See detailed analysis", expanded=True):
                         st.subheader('Movie Details')
                         details = {
-                            'Budget': f"${budget:,.2f}",
-                            'Expected Revenue': f"${prediction['revenue']:,.2f}",
-                            'Profit/Loss': f"${prediction['profit']:,.2f}",
-                            'Return on Investment': f"{prediction['roi']:.1f}%",
+                            'Budget': f"${int(budget):,}",
+                            'Expected Revenue': f"${int(prediction['revenue']):,}",
+                            'Profit/Loss': f"${int(prediction['profit']):,}",
+                            'Return on Investment': f"{prediction['roi']:.0f}%",
                             'Runtime': f"{runtime} minutes",
                             'Genres': ', '.join(selected_genres),
                             'Language': language,
