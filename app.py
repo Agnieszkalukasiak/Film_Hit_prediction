@@ -1,6 +1,7 @@
 import streamlit as st
 from app_pages.multipage import MultiPage
-from prediction_utils import predict_movie_revenue 
+
+
 
 # Load page scripts
 from app_pages.hypothesis_validation import page_hypothesis_validation_body

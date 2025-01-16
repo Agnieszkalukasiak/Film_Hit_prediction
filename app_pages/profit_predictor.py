@@ -7,7 +7,6 @@ import numpy as np
 import seaborn as sns 
 import pickle
 
-from prediction_utils import predict_movie_revenue
 
 def load_data():
     """Load all necessary models and data"""
@@ -18,13 +17,14 @@ def load_data():
         # Load transformation data
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
             transform_data = pickle.load(f)
+
+        # Load feature scaler
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/predict_movie_revenue.pkl', 'rb') as f:
+            feature_scaler = pickle.load(f)
         
         # Load feature scaler
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
             feature_scaler = pickle.load(f)
-
-        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/predict_movie_revenue.pkl', 'rb') as f:
-            predict_movie_revenue = pickle.load(f)
             
         # Load top revenue data
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl', 'rb') as f:
@@ -179,4 +179,5 @@ def page_predictor_body():
         st.info("Please ensure all required files are available.")
 
 
-    page_predictor_body()
+
+page_predictor_body()
