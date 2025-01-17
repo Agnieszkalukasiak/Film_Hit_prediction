@@ -22,20 +22,63 @@ def page_pipeline_overview():
     st.title("Data Science Pipeline Overview")
     version = 'v1'
 
+    pickle_files = {
+        'Data Cleaning': {
+            'encoders_and_filters': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl'
+        },
+        'Feature Engineering': {
+            'top_revenue_actors': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl',
+            'top_revenue_directors': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl',
+            'top_revenue_writers': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl',
+            'top_revenue_producers': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl',
+            'full_transformation': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl',
+            'feature_scaler': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl'
+        }
+    }
+
     try:
-        filepath = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl'
-        print(f"Absolute path: {os.path.abspath(filepath)}")
-
-        encoders_and_filters = load_pkl_file(filepath)
-
         # Display the loaded data
-        st.write("### Encoders and Filters Data")
+        st.markdown("**There are 2 ML Pipelines arranged in series.**")
 
-    # Display the keys if it is a dictionary-like object
-        if isinstance(encoders_and_filters, dict):
-            st.write("List of keys in the data:")
-            for key in encoders_and_filters.keys():
-                st.write(f"- {key}")
+        # Process each pipeline stage
+        for stage, files in pickle_files.items():
+            st.markdown(f"\n## {stage} Pipeline")
+            
+            # Load and display each pickle file in the stage
+            for file_name, filepath in files.items():
+                st.markdown(f"\n### {file_name.replace('_', ' ').title()}")
+                print(f"Absolute path: {os.path.abspath(filepath)}")
+
+                data = load_pkl_file(filepath)
+
+                if isinstance(encoders_and_filters, dict):
+            # Display pipeline steps in code format
+                    st.markdown("**Components:**")
+                    pipeline_text = f"`Pipeline(steps={list(encoders_and_filters.keys())})`"
+                    st.markdown(pipeline_text)
+        
+                    for key, value in encoders_and_filters.items():
+                        st.markdown(f"* **{key}:**")
+                        st.code(str(value))
+                elif isinstance(data, (pd.DataFrame, pd.Series)):
+                    # Handle pandas DataFrames/Series
+                    st.markdown("**Data Overview:**")
+                    st.write(f"Shape: {data.shape}")
+                    st.write("Sample of data:")
+                    st.dataframe(data.head())
+
+                elif isinstance(data, (list, set)):
+                    # Handle lists/sets (like top revenue items)
+                    st.markdown("**Top Items:**")
+                    st.write(f"Total items: {len(data)}")
+                    st.write("Sample of items:")
+                    st.code(str(list(data)[:10]))  # Show first 10 items
+
+                else:
+                    # Handle other types of data
+                    st.markdown("**Content:**")
+                    st.code(str(data))
+
     except Exception as e:
         st.error(f"Error loading or processing data: {str(e)}")
         st.write("Please check the file path and ensure the pickle file exists.")
