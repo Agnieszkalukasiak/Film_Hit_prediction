@@ -70,15 +70,29 @@ def load_data():
         print("Loading engineering data...")
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl', 'rb') as f:
             engineering_pipeline = pickle.load(f)
-            
-        return (model, transform_data, feature_scaler, 
+        
+        # Extract columns for top actors, directors, writers, and producers
+        top_actors = transform_data['top_actors']  # Assuming these are in the transform_data
+        top_directors = transform_data['top_directors']
+        top_writers = transform_data['top_writers']
+        top_producers = transform_data['top_producers']
+        
+        # Load the pickled predict_movie_revenue function
+        print("Loading the pickled predict_movie_revenue function...")
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/predict_movie_revenue.pkl', 'rb') as f:
+            predict_func = pickle.load(f)
+
+        # Return everything, including the loaded function
+        return (model, transform_data, cleaning_data, engineering_pipeline, predict_func,
                 top_actors, top_directors, top_writers, top_producers)
+            
                 
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
         return None
 
-
+'''
+#New VERSIOn
 def predict_movie_revenue(budget, runtime, genres, language, production_company, 
                           production_country, actor1, actor2, crew_director, 
                           crew_writer, crew_producer, popularity=0):
@@ -142,7 +156,6 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         feature_df['popularity'] = input_df['popularity']
         feature_df['budget_per_minute'] = feature_df['budget'] / feature_df['runtime']
 
-
         # Handle genres
         for genre in genres:
             genre_col = f'genre_{genre}'
@@ -184,10 +197,10 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         traceback.print_exc()
         return None
 
-
+'''
       
 '''
-
+#OLD VERSION
 def predict_movie_revenue(budget, runtime, genres, language, production_company, 
                           production_country, actor1, actor2, crew_director, 
                           crew_writer, crew_producer):
