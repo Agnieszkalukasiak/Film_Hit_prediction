@@ -15,8 +15,10 @@ def load_pkl_file(filepath):
             data = pickle.load(file)
         return data
     except Exception as e:
-        print(f"Error loading pickle file: {e}")
-        raise
+        st.error(f"Could not load model: {str(e)}")
+        return None
+
+    return pipeline_data
 
 def page_pipeline_overview():
     st.title("Data Science Pipeline Overview")
@@ -24,15 +26,10 @@ def page_pipeline_overview():
 
     pickle_files = {
         'Data Cleaning': {
-            'encoders_and_filters': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl'
+            'cleaning_pipeline': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/cleaning_pipeline.pkl'
         },
         'Feature Engineering': {
-            'top_revenue_actors': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl',
-            'top_revenue_directors': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl',
-            'top_revenue_writers': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl',
-            'top_revenue_producers': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl',
-            'full_transformation': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl',
-            'feature_scaler': '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl'
+           'movie_feature_engineering_pipeline':'/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl'
         }
     }
 
