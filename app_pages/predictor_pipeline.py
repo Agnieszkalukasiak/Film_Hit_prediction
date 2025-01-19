@@ -5,14 +5,15 @@ import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OrdinalEncoder
-from xgboost import XGBClassifier
 import pickle
 import os
 import joblib  
 
 
-def page_pipeline_overview():
+  
 
+
+def page_pipeline_overview():
     try:
         # Load and inspect encoders and filters
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl', 'rb') as f:
@@ -27,32 +28,30 @@ def page_pipeline_overview():
         pipeline_str += "])"
         st.code(pipeline_str)
 
-        st.markdown("### 2. Top Talent Features")
-        talent_files = {
-            'Top Actors': 'top_revenue_actors.pkl',
-            'Top Directors': 'top_revenue_directors.pkl',
-            'Top Writers': 'top_revenue_writers.pkl',
-            'Top Producers': 'top_revenue_producers.pkl'
-        }
-
-        for title, filename in talent_files.items():
-            try:
-                with open(f'/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/{filename}', 'rb') as f:
-                    data = pickle.load(f)
-                    if isinstance(data, (list, set)):
-                        st.markdown(f"**{title} (first 5):**")
-                        st.write(list(data)[:5])
-                    else:
-                        st.markdown(f"**{title} structure:**")
-                        st.write(type(data))
-            except Exception as e:
-                st.error(f"Error loading {filename}: {str(e)}")
-
-      
+        # Display description of what each step does
+        st.markdown("**Pipeline Steps Description:**")
+        for step in steps:
+            if 'mlb' in step:
+               st.write(f"- `{step}`: Multi-label binarization for {step.replace('mlb_', '')}")
+            elif 'min_appearances' in step:
+               st.write(f"- `{step}`: Frequency threshold filtering")
+            elif 'frequent' in step:
+               st.write(f"- `{step}`: Selection of frequent items")
+            elif 'positions' in step:
+               st.write(f"- `{step}`: Position filtering")
+            elif 'encoder' in step:
+               st.write(f"- `{step}`: Label encoding")
+            else:
+                st.write(f"- `{step}`: Feature creation")
     
     except Exception as e:
         st.error(f"Error loading pipelines: {str(e)}")
-    
+        st.error(f"Full error details: {str(type(e).__name__)}: {str(e)}")
+
+       
+
+      
+
     '''
         st.title("ML Pipeline Structure")
 
