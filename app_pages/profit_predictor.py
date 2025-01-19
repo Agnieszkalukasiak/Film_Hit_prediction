@@ -7,7 +7,6 @@ import numpy as np
 import seaborn as sns 
 import pickle
 import traceback
-from clean_data import clean_data, MovieFeatureEngineeringPipeline
 
 
 def get_default_values():
@@ -75,8 +74,16 @@ def load_data():
         except Exception as e:
             print(f"Warning: Using default top producers: {str(e)}")
 
-        return (model, transform_data, cleaning_data, top_actors, top_directors, 
-                top_writers, top_producers, feature_scaler)
+        class DummyPipeline:
+            def transform(self, data):
+                return data
+                
+        engineering_pipeline = DummyPipeline()
+
+        predict_func = model.predict
+        
+        return (model, transform_data, cleaning_data, engineering_pipeline, predict_func, top_actors, top_directors, 
+                top_writers, top_producers)
             
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
@@ -88,31 +95,13 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
                           production_country, actor1, actor2, crew_director, 
                           crew_writer, crew_producer, popularity=0):
     try:
-        print("Loading models and data...")
-        
-        # Load the trained model
-        print("Loading model...")
-        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250119.joblib')
-        
-        # Load the saved transformation data
-        print("Loading transformation data...")
-        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
-            transform_data = pickle.load(f)
 
-        # Load the cleaning and engineering pipelines
-        print("Loading cleaning data...")
-        cleaning_data = {}
-        try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/cleaning_pipeline.pkl', 'rb') as f:
-                cleaning_data = pickle.load(f)
-                print("Keys in cleaning_data:", cleaning_data.keys())
-        except Exception as e:
-            print(f"Warning: Could not load cleaning data: {str(e)}")
-        
-        # Load engineering pipeline
-        print("Loading engineering data...")
-        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl', 'rb') as f:
-            engineering_pipeline = pickle.load(f)
+        data = load_data()
+        if data is None:
+            return None
+            
+        (model, transform_data, cleaning_data, engineering_pipeline, predict_func,
+         _, _, _, _) = data
 
         # Create initial raw data
         raw_data = {
