@@ -36,7 +36,25 @@ def page_pipeline_overview():
        
         st.code(pipeline_str)
 
+        st.markdown("---")
+        st.markdown("**Second Pipeline: Feature Engineering**")
         
+            
+        # Create pipeline string for second pipeline
+        feature_pipeline_str = """Pipeline(steps=["
+        components = {
+            'budget_imputer': 'SimpleImputer(strategy="median")',
+            'runtime_imputer': 'SimpleImputer(strategy="median")',
+            'release_date_transformer': 'DateFeatureExtractor()',
+            'budget_scaler': 'StandardScaler()',
+            'runtime_scaler': 'StandardScaler()',
+            'target_encoder': 'LogTransformer()'
+        ])"""
+    
+        
+        st.code(feature_pipeline_str)
+        
+       
 
         st.info(
             f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
@@ -47,8 +65,10 @@ def page_pipeline_overview():
         )
             
     except Exception as e:
-        st.error(f"Error loading encoders and filters: {str(e)}")
-    
+        st.error(f"Error loading pipelines: {str(e)}")
+
+
+
   
     
     
