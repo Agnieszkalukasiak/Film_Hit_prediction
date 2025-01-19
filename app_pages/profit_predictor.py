@@ -8,13 +8,12 @@ import seaborn as sns
 import pickle
 import numpy as np
 import traceback
-
-
+'''
 def load_data():
     """Load all necessary models and data"""
     try:
         # Load the model
-        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250115.joblib')
+        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250119.joblib')
         
         # Load transformation data
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
@@ -41,9 +40,153 @@ def load_data():
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
         return None
+
+'''
+
+def load_data():
+    """Load all necessary models and data"""
+    try:
+        print("Loading models and data...")
+        
+        # Load the trained model
+        print("Loading model...")
+        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250119.joblib')
+        
+        # Load the saved transformation data
+        print("Loading transformation data...")
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
+            transform_data = pickle.load(f)
+
+        # Load the cleaning and engineering pipelines
+        print("Loading cleaning data...")
+        cleaning_data = {}
+        try:
+            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/cleaning_pipeline.pkl', 'rb') as f:
+                cleaning_data = pickle.load(f)
+                print("Keys in cleaning_data:", cleaning_data.keys())
+        except Exception as e:
+            print(f"Warning: Could not load cleaning data: {str(e)}")
+        
+        print("Loading engineering data...")
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl', 'rb') as f:
+            engineering_pipeline = pickle.load(f)
+            
+        return (model, transform_data, feature_scaler, 
+                top_actors, top_directors, top_writers, top_producers)
+                
+    except Exception as e:
+        st.error(f"Error loading data: {str(e)}")
+        return None
+
+
+def predict_movie_revenue(budget, runtime, genres, language, production_company, 
+                          production_country, actor1, actor2, crew_director, 
+                          crew_writer, crew_producer, popularity=0):
+    try:
+        # Create initial raw data
+        raw_data = {
+            'budget': budget,
+            'runtime': runtime,
+            'original_language': language,
+            'genres': genres,
+            'cast': [actor1, actor2] if actor1 and actor2 else [actor1] if actor1 else [],
+            'crew': [
+                f"Director_{crew_director}" if crew_director else None,
+                f"Writer_{crew_writer}" if crew_writer else None,
+                f"Producer_{crew_producer}" if crew_producer else None
+            ],
+            'production_companies': [production_company] if production_company else [],
+            'production_countries': [production_country] if production_country else [],
+            'popularity': popularity
+        }
+
+       # Create DataFrame
+        input_df = pd.DataFrame([raw_data])
+
+        # Filter out None values from crew list
+        input_df['crew'] = input_df['crew'].apply(lambda x: [item for item in x if item is not None])
+
+        print("Data loaded, beginning feature engineering...")
+
+        # Apply cleaning based on the cleaning data dictionary
+        if 'frequent_crew' in cleaning_data:
+            input_df['crew'] = input_df['crew'].apply(
+                lambda x: [person for person in x if person in cleaning_data['frequent_crew']]
+            )
+
+        if 'frequent_cast' in cleaning_data:
+            input_df['cast'] = input_df['cast'].apply(
+                lambda x: [actor for actor in x if actor in cleaning_data['frequent_cast']]
+            )
+
+        if 'frequent_countries' in cleaning_data:
+            input_df['production_countries'] = input_df['production_countries'].apply(
+                lambda x: [country for country in x if country in cleaning_data['frequent_countries']]
+            )
+
+        if 'frequent_companies' in cleaning_data:
+            input_df['production_companies'] = input_df['production_companies'].apply(
+                lambda x: [company for company in x if company in cleaning_data['frequent_companies']]
+            )
+
+        print("Cleaning complete, starting feature engineering...")
+
+        # Initialize all possible feature columns with 0
+
+        model_features = [f for f in transform_data['all_features'] if f != 'revenue']
+        feature_df = pd.DataFrame(0, index=input_df.index, columns=model_features)
+
+        # Fill in numeric values
+        feature_df['budget'] = input_df['budget']
+        feature_df['runtime'] = input_df['runtime']
+        feature_df['popularity'] = input_df['popularity']
+        feature_df['budget_per_minute'] = feature_df['budget'] / feature_df['runtime']
+
+
+        # Handle genres
+        for genre in genres:
+            genre_col = f'genre_{genre}'
+            if f'genre_{genre}' in feature_df.columns:
+                feature_df[f'genre_{genre}'] = 1
+
+        # Handle language
+        if 'language_encoder' in transform_data['encoders_and_filters']:
+            lang_encoder = transform_data['encoders_and_filters']['language_encoder']
+            if language in lang_encoder.classes_:
+                feature_df['language_encoded'] = lang_encoder.transform([language])[0]
+
+        print("Basic features created, proceeding with final transformations...")
+
+        # Scale numeric features if scaler exists
+        numeric_cols = [col for col in transform_data['numeric_cols'] if col != 'revenue']
+        if 'feature_scaler' in transform_data:
+            feature_df[numeric_cols] = transform_data['feature_scaler'].transform(feature_df[numeric_cols])
+
+        print(f"Final feature matrix shape: {feature_df.shape}")
+
+        # Make prediction
+        raw_prediction = model.predict(feature_df)[0]
+        print(f"Raw prediction from model: {raw_prediction}")
+
+        # Don't apply scaling factors - the prediction is already in the right units
+        predicted_revenue = raw_prediction  # The model predicts in dollars
+        predicted_revenue = max(0, predicted_revenue) 
+        
+        return {
+            'revenue': predicted_revenue,
+            'profit': predicted_revenue - budget,
+            'roi': ((predicted_revenue - budget) / budget * 100) if budget > 0 else 0,
+            'is_profitable': predicted_revenue > budget,
+        }
     
+    except Exception as e:
+        print(f"Error in prediction: {str(e)}")
+        traceback.print_exc()
+        return None
 
 
+      
+'''
 
 def predict_movie_revenue(budget, runtime, genres, language, production_company, 
                           production_country, actor1, actor2, crew_director, 
@@ -215,7 +358,7 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         traceback.print_exc()
         return None
 
-
+'''
 def page_predictor_body():
     st.title('Movie Revenue Predictor 🎬')
     
