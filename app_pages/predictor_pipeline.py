@@ -7,54 +7,53 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OrdinalEncoder
 from xgboost import XGBClassifier
 import pickle
+import os
+import joblib  
 
-def load_pickle(file_path):
-    try:
-        if not os.path.exists(file_path):
-            st.error(f"File not found: {file_path}")
-            return None
-        return joblib.load(file_path)
-    except Exception as e:
-        st.error(f"Error loading {file_path}: {str(e)}")
-        return None
 
 def page_pipeline_overview():
 
     st.title("ML Pipeline Structure")
-    
-    version = 'v1'
-    
-    # Load both pipelines
-    cleaning_pipeline = load_pickle(f"/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/{version}/cleaning_pipeline.pkl")
-    modeling_pipeline = load_pickle(f"/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/{version}/movie_feature_engineering_pipeline.pkl")
-    
-    # Display pipelines side by side with arrow
-    col1, arrow, col2 = st.columns([2, 1, 2])
-    
-    with col1:
-        st.subheader("Data Cleaning Pipeline")
-        st.code(str(cleaning_pipeline))
 
-    with arrow:
-        st.markdown("<div style='text-align: center; font-size: 24px; padding-top: 50px;'>➔</div>", 
-                   unsafe_allow_html=True)
+    st.markdown("**There are 2 ML Pipelines arranged in series.**")
+    st.markdown("* The first is responsible for data cleaning and feature engineering.")
 
-    with col2:
-        st.subheader("Feature Engineering Pipeline")
-        st.code(str(modeling_pipeline))
-
+    try:
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl', 'rb') as f:
+            encoders_and_filters = pickle.load(f)
     
-    st.info(
-    f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
-    f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
-    f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
-    f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
-    f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
-    )
+            pipeline_str = "Pipeline(steps=[\n"
+            for key in encoders_and_filters.keys():
+            
+        # Display pipeline components in multiple rows
+                pipeline_str += f"    ('{key}', MultiLabelBinarizer()),\n" if 'mlb' in key \
+                    else f"    ('{key}', FrequencyThresholdFilter()),\n" if 'min_appearances' in key \
+                    else f"    ('{key}', ColumnSelector()),\n" if 'frequent' in key \
+                    else f"    ('{key}', PositionFilter()),\n" if 'positions' in key \
+                    else f"    ('{key}', LabelEncoder()),\n" if 'encoder' in key \
+                    else f"    ('{key}', FeatureCreator()),\n"
+            pipeline_str = pipeline_str.rstrip(',\n') + "\n])"
+       
+        st.code(pipeline_str)
+
+        
+
+        st.info(
+            f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
+            f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
+            f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
+            f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
+            f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
+        )
+            
+    except Exception as e:
+        st.error(f"Error loading encoders and filters: {str(e)}")
+    
+  
+    
+    
 
 
-if __name__ == "__main__":
-    show_pipelines()
 
    
   
