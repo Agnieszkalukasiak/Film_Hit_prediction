@@ -57,6 +57,10 @@ def load_data():
         with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
             transform_data = pickle.load(f)
 
+        # Load feature scaler
+        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
+            feature_scaler = pickle.load(f)
+
         # Load the cleaning and engineering pipelines
         print("Loading cleaning data...")
         cleaning_data = {}
@@ -92,7 +96,7 @@ def load_data():
         return None
 
 '''
-#New VERSIOn
+#New VERSION
 def predict_movie_revenue(budget, runtime, genres, language, production_company, 
                           production_country, actor1, actor2, crew_director, 
                           crew_writer, crew_producer, popularity=0):
@@ -196,8 +200,8 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         print(f"Error in prediction: {str(e)}")
         traceback.print_exc()
         return None
-
 '''
+
       
 '''
 #OLD VERSION
@@ -381,7 +385,7 @@ def page_predictor_body():
         if data is None:
             return
             
-        (model, transform_data, feature_scaler,
+        (model, transform_data, cleaning_data, engineering_pipeline, predict_func,
          top_actors, top_directors, top_writers, top_producers) = data
         
         # Create form
