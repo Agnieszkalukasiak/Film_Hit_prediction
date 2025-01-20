@@ -206,8 +206,23 @@ def page_pipeline_overview():
                                 st.code("Feature Scaler")
                             with col2:
                                 st.write(type(feature_pipeline.feature_scaler).__name__)
+                # Transform Data
+                with st.expander("Transform Data", expanded=True):
+                    if hasattr(feature_pipeline, 'transform_data'):
+                        data = feature_pipeline.transform_data
+                        if isinstance(data, dict):
+                            for key, value in data.items():
+                                st.write(f"{key}: {type(value).__name__}")
+                                if isinstance(value, (list, dict)):
+                                    st.write(f"Number of items: {len(value)}")
                 
-                    # Genre Features
+                # Numeric Features
+                with st.expander("Numeric Features", expanded=True):
+                    if hasattr(feature_pipeline, 'transform_data'):
+                        numeric_cols = feature_pipeline.transform_data.get('numeric_cols', [])
+                        st.write(f"Number of numeric features: {len(numeric_cols)}")
+                
+                # Genre Features
                 with st.expander("Genre Features", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
                         genres = feature_pipeline.transform_data.get('genre_columns', [])
@@ -225,13 +240,6 @@ def page_pipeline_overview():
                             st.metric("Runtime", "Available" if 'runtime' in feature_pipeline.transform_data.get('numeric_cols', []) else "Not Available")
                         with col3:
                             st.metric("Popularity", "Available" if 'popularity' in feature_pipeline.transform_data.get('numeric_cols', []) else "Not Available")
-
-                # Numeric Features
-                with st.expander("Numeric Features", expanded=True):
-                    if hasattr(feature_pipeline, 'transform_data'):
-                        numeric_cols = feature_pipeline.transform_data.get('numeric_cols', [])
-                        st.write(f"Number of numeric features: {len(numeric_cols)}")
-
                         
                 # Cast & Crew Features
                 with st.expander("Cast & Crew Features", expanded=True):
@@ -244,7 +252,7 @@ def page_pipeline_overview():
                         st.metric("Top Writers", len(feature_pipeline.writer_data.get('columns', [])))
 
                 with tab2:
-                    st.markdown("### Pipeline Details")
+                    st.markdown("### Role Based Metrics")
                 # Actor Data
                     with st.expander("Actor Data", expanded=True):
                         if hasattr(feature_pipeline, 'actor_data'):
@@ -275,24 +283,12 @@ def page_pipeline_overview():
                             data = feature_pipeline.writer_data
                             if isinstance(data, dict):
                                 st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
-                                st.write(f"Number of columns: {len(data.get('columns', []))}")
-             
-                # Transform Data
-                    with st.expander("Transform Data", expanded=True):
-                        if hasattr(feature_pipeline, 'transform_data'):
-                            data = feature_pipeline.transform_data
-                            if isinstance(data, dict):
-                                for key, value in data.items():
-                                    st.write(f"{key}: {type(value).__name__}")
-                                    if isinstance(value, (list, dict)):
-                                        st.write(f"Number of items: {len(value)}")
-                       
+                                st.write(f"Number of columns: {len(data.get('columns', []))}")   
             
         except Exception as e:
                 st.error(f"Error in feature engineering pipeline: {str(e)}")
     
 
-      
     
     elif page == "Role-Based Analysis":
         st.header("Role-Based Analysis")
