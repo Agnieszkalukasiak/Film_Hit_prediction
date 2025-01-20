@@ -191,6 +191,8 @@ def page_pipeline_overview():
                                 st.code("Feature Scaler")
                             with col2:
                                 st.write(type(feature_pipeline.feature_scaler).__name__)
+                
+
                     # Genre Features
                 with st.expander("Genre Features", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
@@ -199,11 +201,23 @@ def page_pipeline_overview():
                         if genres:
                             st.write("Available genres:", ", ".join(genres))
 
+                # Movie Metrics
+                with st.expander("Movie Metrics", expanded=True):
+                    if hasattr(feature_pipeline, 'transform_data'):
+                        col1, col2, col3 = st.columns(3)
+                        with col1:
+                            st.metric("Budget", "Available" if 'budget' in feature_pipeline.transform_data.get('numeric_cols', []) else "Not Available")
+                        with col2:
+                            st.metric("Runtime", "Available" if 'runtime' in feature_pipeline.transform_data.get('numeric_cols', []) else "Not Available")
+                        with col3:
+                            st.metric("Popularity", "Available" if 'popularity' in feature_pipeline.transform_data.get('numeric_cols', []) else "Not Available")
+
                 # Numeric Features
                 with st.expander("Numeric Features", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
                         numeric_cols = feature_pipeline.transform_data.get('numeric_cols', [])
                         st.write(f"Number of numeric features: {len(numeric_cols)}")
+
                         
                 # Cast & Crew Features
                 with st.expander("Cast & Crew Features", expanded=True):
@@ -214,7 +228,7 @@ def page_pipeline_overview():
                     with col2:
                         st.metric("Top Producers", len(feature_pipeline.producer_data.get('columns', [])))
                         st.metric("Top Writers", len(feature_pipeline.writer_data.get('columns', [])))
-                        
+
                 with tab2:
                     st.markdown("### Pipeline Details")
                 # Actor Data
@@ -258,6 +272,7 @@ def page_pipeline_overview():
                                     st.write(f"{key}: {type(value).__name__}")
                                     if isinstance(value, (list, dict)):
                                         st.write(f"Number of items: {len(value)}")
+                       
 
         except Exception as e:
                 st.error(f"Error in feature engineering pipeline: {str(e)}")
