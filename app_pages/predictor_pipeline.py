@@ -56,34 +56,49 @@ def display_role_metrics(role_data, role_name):
         return
         
     st.subheader(f"Top {role_name} Analysis")
+
+    # Debug: Print the structure of role_data
+    st.write("Role data keys:", role_data.keys() if isinstance(role_data, dict) else "Not a dictionary")
+    if isinstance(role_data, dict) and 'metrics' in role_data:
+        st.write("First metric keys:", next(iter(role_data['metrics'].values())).keys() if role_data['metrics'] else "No metrics")
+    
     
     # Show the columns (top performers)
-    st.write(f"Number of top {role_name.lower()}: {len(role_data['columns'])}")
+    if isinstance(role_data, dict) and 'columns' in role_data:
+        st.write(f"Number of top {role_name.lower()}: {len(role_data['columns'])}")
     
     # Clean the names
     clean_names = [name.split('_')[-1] for name in role_data['columns']]
     st.write(f"Top {role_name}:", ', '.join(clean_names))
 
     # Metrics for specific person
-    selected_person = st.selectbox(
-        f"Select a {role_name.lower()} to see their metrics:",
-        options=list(role_data['metrics'].keys())
+    if 'metrics' in role_data and role_data['metrics']:
+        selected_person = st.selectbox(
+            f"Select a {role_name.lower()} to see their metrics:",
+            options=list(role_data['metrics'].keys())
     )
 
-    if selected_person:
+    if selected_person and selected_person in role_data['metrics']:
         metrics = role_data['metrics'][selected_person]
         col1, col2 = st.columns(2)
         
         with col1:
-            st.metric("Movies Count", metrics['movies_count'])
-            st.metric("Total Revenue", f"${metrics['total_revenue']:,.2f}")
-            st.metric("Average Revenue", f"${metrics['avg_revenue']:,.2f}")
-            st.metric("Hit Rate", f"{metrics['hit_rate']*100:.1f}%")
+            if 'movies_count' in metrics:
+                st.metric("Movies Count", metrics['movies_count'])
+            if 'total_revenue' in metrics:
+                st.metric("Total Revenue", f"${metrics['total_revenue']:,.2f}")
+            if 'avg_revenue' in metrics:
+                st.metric("Average Revenue", f"${metrics['avg_revenue']:,.2f}")
+            if 'hit_rate' in metrics:
+                st.metric("Hit Rate", f"{metrics['hit_rate']*100:.1f}%")
         
         with col2:
-            st.metric("Average Popularity", f"{metrics['avg_popularity']:.2f}")
-            st.metric("Revenue Consistency", f"${metrics['revenue_consistency']:,.2f}")
-            st.metric("Composite Score", f"{metrics['composite_score']:.3f}")
+            if 'avg_popularity' in metrics:
+                st.metric("Average Popularity", f"{metrics['avg_popularity']:.2f}")
+            if 'revenue_consistency' in metrics:
+                st.metric("Revenue Consistency", f"${metrics['revenue_consistency']:,.2f}")
+            if 'composite_score' in metrics:
+                st.metric("Composite Score", f"{metrics['composite_score']:.3f}")
 
 def page_pipeline_overview():
     st.title("Movie Success Prediction Pipeline")
@@ -192,7 +207,6 @@ def page_pipeline_overview():
                             with col2:
                                 st.write(type(feature_pipeline.feature_scaler).__name__)
                 
-
                     # Genre Features
                 with st.expander("Genre Features", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
@@ -262,7 +276,7 @@ def page_pipeline_overview():
                             if isinstance(data, dict):
                                 st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
                                 st.write(f"Number of columns: {len(data.get('columns', []))}")
-
+             
                 # Transform Data
                     with st.expander("Transform Data", expanded=True):
                         if hasattr(feature_pipeline, 'transform_data'):
@@ -273,27 +287,11 @@ def page_pipeline_overview():
                                     if isinstance(value, (list, dict)):
                                         st.write(f"Number of items: {len(value)}")
                        
-
+            
         except Exception as e:
                 st.error(f"Error in feature engineering pipeline: {str(e)}")
     
-            
-                '''
-                # Show encoding information
-                st.subheader("Feature Encoding")
-                if hasattr(feature_pipeline, 'transform_data'):
-                    transform_data = feature_pipeline.transform_data
-                    if isinstance(transform_data, dict):
-                        st.write(f"Minimum appearances threshold: {transform_data.get('crew_min_appearances', 'N/A')}")
-                    
-                    
-                    # Show number of features for each role
-                    roles = ['Director', 'Producer', 'Writer']
-                    for role in roles:
-                        role_columns = [col for col in transform_data.get('crew_frequent_columns', []) 
-                                      if f'crew_{role}_' in col]
-                        st.write(f"Number of {role} features: {len(role_columns)}")
-                '''
+
       
     
     elif page == "Role-Based Analysis":
