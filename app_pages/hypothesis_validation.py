@@ -3,49 +3,34 @@ import streamlit as st
 
 def page_hypothesis_validation_body():
 
-    st.write("# Project Hypothesis and Validation")
-    st.write("## Initial Hypothesis ")
+    st.title("Project Hypothesis and Validation")
 
-    # Hypothesis
-    st.success(
-        "Movie revenue could be predicted primarily using budget, language, and genre.")
+    st.subheader("Initial Hypothesis ")
 
-    st.write("### Results Disproved This Hypothesis:")
-
-    st.info (
-        f"The low R² score (0.15) indicates these variables alone cannot reliably predict revenue.\n"
-        f"Other crucial factors are likely missing, such as:\n"
-        f"* Star power/cast. \n"
-        f"* Release timing/season. \n"
-        f"* Marketing budget.\n"
-        f"* Critical reviews.\n"
-        f"* Competition at release.\n"
-        f"* Director/studio reputation.\n"
+    st.write("### Correct ✅\n")
+    st.info(
+        "We suspected that the variables available prior to greenlighting were not sufficient to determine a film's revenue."
+        "**Correct**.The correlation study between revenue and the variables available **before greenlighting** confirms that while certain factors—such as **budget, cast popularity, genre, runtime, and crew**—have a measurable impact, they do not fully determine a film's financial success.\n"
+        "External factors such as **market trends, audience reception, competitive releases, and marketing budgets** contribute significantly to a film's revenue predictability."
         )
+
+    # Actionable insight section
+    st.subheader("Actionable Insight 🔍")
+
+    st.success(
+        "This finding highlights the importance of supplementing **quantitative analysis** with **qualitative assessments, industry expertise, and market research** to enhance investment decisions.\n\n"
+        "Further refinement of predictive models may include additional factors such as:\n"
+        "- Marketing budget\n"
+        "- Distribution strategy\n"
+        "- Audience sentiment\n"
+        "- Social media buzz\n\n"
+        "These improvements can help to enhance revenue forecasting accuracy."
+    )
+
+   
+
+   
     
-    st.write("### Validation:")
-
-    st.info(
-        "Model Performance Shows limited predictive power:\n"
-        "* R² score of 0.15 indicates poor predictive ability.\n"
-        "* Model misses 85% of what influences revenue.\n"
-        "* Cannot make reliable revenue predictions with current features.\n"
-    )
-
-     
-    st.write("### Learning Outcomes:")
-    st.info(
-        "* Budget, language, and genre alone are insufficient predictors.\n"
-        "* Need more diverse and influential features.\n"
-        "* Movie success is more complex than initially assumed.\n"
-    )
-
-    st.write("### Business Implications:")
-    st.info(
-        "* Current model should not be used for serious financial decisions.\n"
-        "* More data collection needed for meaningful predictions.\n"
-        "* Demonstrates complexity of movie revenue forecasting\n" 
-    )
 
         
     
