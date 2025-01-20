@@ -178,22 +178,65 @@ def page_pipeline_overview():
             feature_pipeline = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl')
             
             if feature_pipeline:
-                st.markdown("### Feature Engineering Components")
+                tab1, tab2 = st.tabs(["Pipeline Components", "Detailed Metrics"])
+
+                with tab1:
+                    st.markdown("### Feature Engineering Components")
                 
                 # Display feature engineering steps
-                st.subheader("Scaling and Transformation")
-                if hasattr(feature_pipeline, 'feature_scaler'):
-                    st.write("Feature Scaler:", type(feature_pipeline.feature_scaler).__name__)
-
-                # Show all available attributes
-                st.subheader("Pipeline Attributes")
-                for attr in ['transform_data', 'actor_data', 'director_data', 'producer_data', 'writer_data']:
-                    if hasattr(feature_pipeline, attr):
-                        data = getattr(feature_pipeline, attr)
-                        if data is not None:
-                            st.write(f"{attr}: Data available")
+                    with st.expander("Scaling and Transformation", expanded=True):
+                        if hasattr(feature_pipeline, 'feature_scaler'):
+                            col1, col2 = st.columns([1, 2])
+                            with col1:
+                                st.code("Feature Scaler")
+                            with col2:
+                                st.write(type(feature_pipeline.feature_scaler).__name__)
+                with tab2:
+                    st.markdown("### Pipeline Details")
+                # Actor Data
+                    with st.expander("Actor Data", expanded=True):
+                        if hasattr(feature_pipeline, 'actor_data'):
+                            data = feature_pipeline.actor_data
                             if isinstance(data, dict):
-                                st.write(f"Number of items in {attr}: {len(data)}")
+                                st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
+                                st.write(f"Number of columns: {len(data.get('columns', []))}")
+
+                # Director Data
+                    with st.expander("Director Data", expanded=True):
+                        if hasattr(feature_pipeline, 'director_data'):
+                            data = feature_pipeline.director_data
+                            if isinstance(data, dict):
+                                st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
+                                st.write(f"Number of columns: {len(data.get('columns', []))}")
+
+                # Producer Data
+                    with st.expander("Producer Data", expanded=True):
+                        if hasattr(feature_pipeline, 'producer_data'):
+                            data = feature_pipeline.producer_data
+                            if isinstance(data, dict):
+                                st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
+                                st.write(f"Number of columns: {len(data.get('columns', []))}")
+
+                # Writer Data
+                    with st.expander("Writer Data", expanded=True):
+                        if hasattr(feature_pipeline, 'writer_data'):
+                            data = feature_pipeline.writer_data
+                            if isinstance(data, dict):
+                                st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
+                                st.write(f"Number of columns: {len(data.get('columns', []))}")
+
+                # Transform Data
+                    with st.expander("Transform Data", expanded=True):
+                        if hasattr(feature_pipeline, 'transform_data'):
+                            data = feature_pipeline.transform_data
+                            if isinstance(data, dict):
+                                for key, value in data.items():
+                                    st.write(f"{key}: {type(value).__name__}")
+                                    if isinstance(value, (list, dict)):
+                                        st.write(f"Number of items: {len(value)}")
+
+        except Exception as e:
+                st.error(f"Error in feature engineering pipeline: {str(e)}")
     
             
                 '''
@@ -212,8 +255,7 @@ def page_pipeline_overview():
                                       if f'crew_{role}_' in col]
                         st.write(f"Number of {role} features: {len(role_columns)}")
                 '''
-        except Exception as e:
-            st.error(f"Error in feature engineering pipeline: {str(e)}")
+      
     
     elif page == "Role-Based Analysis":
         st.header("Role-Based Analysis")
