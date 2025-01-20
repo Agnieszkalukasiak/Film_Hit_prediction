@@ -9,9 +9,191 @@ import pickle
 import os
 import joblib  
 
+import streamlit as st
+import pickle
+import pandas as pd
+import numpy as np
 
+
+def load_pickle(file_path):
+    try:
+        with open(file_path, 'rb') as f:
+            return pickle.load(f)
+    except Exception as e:
+        st.error(f"Error loading {file_path}: {str(e)}")
+        return None
+
+def display_role_metrics(role_data, role_name):
+    if role_data is None:
+        st.error(f"No data available for {role_name}")
+        return
+        
+    st.subheader(f"Top {role_name} Analysis")
+    
+    # Show the columns (top performers)
+    st.write(f"Number of top {role_name.lower()}: {len(role_data['columns'])}")
+    
+    # Clean the names
+    clean_names = [name.split('_')[-1] for name in role_data['columns']]
+    st.write(f"Top {role_name}:", ', '.join(clean_names))
+
+    # Metrics for specific person
+    selected_person = st.selectbox(
+        f"Select a {role_name.lower()} to see their metrics:",
+        options=list(role_data['metrics'].keys())
+    )
+
+    if selected_person:
+        metrics = role_data['metrics'][selected_person]
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.metric("Movies Count", metrics['movies_count'])
+            st.metric("Total Revenue", f"${metrics['total_revenue']:,.2f}")
+            st.metric("Average Revenue", f"${metrics['avg_revenue']:,.2f}")
+            st.metric("Hit Rate", f"{metrics['hit_rate']*100:.1f}%")
+        
+        with col2:
+            st.metric("Average Popularity", f"{metrics['avg_popularity']:.2f}")
+            st.metric("Revenue Consistency", f"${metrics['revenue_consistency']:,.2f}")
+            st.metric("Composite Score", f"{metrics['composite_score']:.3f}")
+
+def page_pipeline_overview():
+    st.title("Movie Success Prediction Pipeline")
+    
+    # Sidebar navigation
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio(
+        "Go to",
+        ["Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"]
+    )
+    
+    if page == "Data Cleaning Pipeline":
+        st.header("Data Cleaning Pipeline")
+        
+        try:
+            # Load cleaning pipeline
+            encoders_and_filters = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl')
+            
+            if encoders_and_filters:
+                # Create tabs for different aspects of cleaning
+                tab1, tab2 = st.tabs(["Pipeline Steps", "Transformation Details"])
+                
+                with tab1:
+                    st.markdown("### Pipeline Components")
+                    
+                    # Group pipeline steps by category
+                    categories = {
+                        "Encoding": [step for step in encoders_and_filters.keys() if 'mlb' in step or 'encoder' in step],
+                        "Filtering": [step for step in encoders_and_filters.keys() if 'min_appearances' in step or 'positions' in step],
+                        "Feature Selection": [step for step in encoders_and_filters.keys() if 'frequent' in step],
+                        "Other": [step for step in encoders_and_filters.keys() if not any(x in step for x in ['mlb', 'encoder', 'min_appearances', 'positions', 'frequent'])]
+                    }
+                    
+                    for category, steps in categories.items():
+                        if steps:
+                            with st.expander(f"{category} Steps", expanded=True):
+                                for step in steps:
+                                    col1, col2 = st.columns([1, 2])
+                                    with col1:
+                                        st.code(step)
+                                    with col2:
+                                        if 'mlb' in step:
+                                            st.write(f"Multi-label binarization for {step.replace('mlb_', '')}")
+                                        elif 'min_appearances' in step:
+                                            st.write("Filters out rare items based on frequency threshold")
+                                        elif 'frequent' in step:
+                                            st.write("Selects frequently occurring items")
+                                        elif 'positions' in step:
+                                            st.write("Filters based on crew positions")
+                                        elif 'encoder' in step:
+                                            st.write("Converts categorical labels to numerical values")
+                                        else:
+                                            st.write("Custom feature creation step")
+                
+                with tab2:
+                    st.markdown("### Transformation Details")
+                    
+                    for key, transformer in encoders_and_filters.items():
+                        with st.expander(f"Transformer: {key}"):
+                            if hasattr(transformer, 'classes_'):
+                                st.write("Number of unique classes:", len(transformer.classes_))
+                                if len(transformer.classes_) < 10:
+                                    st.write("Classes:", transformer.classes_)
+                            elif isinstance(transformer, (int, float)):
+                                st.write("Threshold value:", transformer)
+                            elif isinstance(transformer, list):
+                                st.write("Number of items:", len(transformer))
+                                if len(transformer) < 10:
+                                    st.write("Items:", transformer)
+                            else:
+                                st.write("Type:", type(transformer).__name__)
+        
+        except Exception as e:
+            st.error(f"Error in cleaning pipeline: {str(e)}")
+    
+    elif page == "Feature Engineering":
+        st.header("Feature Engineering Pipeline")
+        
+        try:
+            # Load feature engineering pipeline
+            feature_pipeline = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/feature_engineering/feature_pipeline.pkl')
+            
+            if feature_pipeline:
+                st.markdown("### Feature Engineering Components")
+                
+                # Display feature engineering steps
+                st.subheader("Scaling and Transformation")
+                if 'feature_scaler' in feature_pipeline:
+                    st.write("Feature Scaler:", type(feature_pipeline['feature_scaler']).__name__)
+                
+                # Show encoding information
+                st.subheader("Feature Encoding")
+                if 'encoders_and_filters' in feature_pipeline:
+                    encoders = feature_pipeline['encoders_and_filters']
+                    st.write(f"Minimum appearances threshold: {encoders.get('crew_min_appearances', 'N/A')}")
+                    
+                    # Show number of features for each role
+                    roles = ['Director', 'Producer', 'Writer']
+                    for role in roles:
+                        role_columns = [col for col in encoders.get('crew_frequent_columns', []) 
+                                      if f'crew_{role}_' in col]
+                        st.write(f"Number of {role} features: {len(role_columns)}")
+        
+        except Exception as e:
+            st.error(f"Error in feature engineering pipeline: {str(e)}")
+    
+    elif page == "Role-Based Analysis":
+        st.header("Role-Based Analysis")
+        
+        try:
+            # Load role-based analysis results
+            roles_data = {
+                "Actors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_actors.pkl'),
+                "Directors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_directors.pkl'),
+                "Producers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_producers.pkl'),
+                "Writers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_writers.pkl')
+            }
+            
+            # Create tabs for different roles
+            tabs = st.tabs(list(roles_data.keys()))
+            
+            for tab, (role_name, role_data) in zip(tabs, roles_data.items()):
+                with tab:
+                    display_role_metrics(role_data, role_name)
+        
+        except Exception as e:
+            st.error(f"Error in role-based analysis: {str(e)}")
+
+if __name__ == "__main__":
+    st.set_page_config(
+        page_title="Movie Success Prediction Pipeline",
+        page_icon="🎬",
+        layout="wide"
+    )
+    main()
   
-
+'''
 
 def page_pipeline_overview():
     try:
@@ -48,11 +230,11 @@ def page_pipeline_overview():
         st.error(f"Error loading pipelines: {str(e)}")
         st.error(f"Full error details: {str(type(e).__name__)}: {str(e)}")
 
-       
+    
 
       
 
-    '''
+
         st.title("ML Pipeline Structure")
 
         st.markdown("**There are 2 ML Pipelines arranged in series.**")
