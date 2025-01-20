@@ -11,8 +11,13 @@ import joblib
 
 import streamlit as st
 import pickle
-import pandas as pd
-import numpy as np
+import os
+
+# Print current working directory to help with debugging
+st.write("Current working directory:", os.getcwd())
+
+# Define the correct base path
+BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
 
 
 def load_pickle(file_path):
@@ -137,7 +142,7 @@ def page_pipeline_overview():
         
         try:
             # Load feature engineering pipeline
-            feature_pipeline = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/feature_engineering/feature_pipeline.pkl')
+            feature_pipeline = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl')
             
             if feature_pipeline:
                 st.markdown("### Feature Engineering Components")
@@ -169,10 +174,10 @@ def page_pipeline_overview():
         try:
             # Load role-based analysis results
             roles_data = {
-                "Actors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_actors.pkl'),
-                "Directors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_directors.pkl'),
-                "Producers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_producers.pkl'),
-                "Writers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/analysis/top_revenue_writers.pkl')
+                "Actors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl'),
+                "Directors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl'),
+                "Producers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl'),
+                "Writers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl'),
             }
             
             # Create tabs for different roles
