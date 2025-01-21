@@ -9,7 +9,7 @@ import pandas as pd
 def page_film_success_study_body():
 
     # load data
-    df_movies = pd.read_csv('encoded_movies.csv')
+    df_movies = pd.read_csv('workspace/Film_Hit_prediction/jupyter_notebooks/outputs/datasets/collection/merged_movie_data.csv')
 
     # hard copied from film sucess study customer study notebook
     vars_to_study = ['Budget', 'language',
