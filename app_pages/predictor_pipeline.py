@@ -126,31 +126,40 @@ def page_pipeline_overview():
         'top_writers': os.path.join(BASE_PATH, 'engineered/top_revenue_writers.pkl')
     }
    
+     # Initialize session state for navigation if not exists
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = "Pipeline Overview"
+
     # Single navigation control
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio(
+    current_page = st.sidebar.radio(
         "Go to",
         ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"],
-        key="navigation_radio"
+        key="navigation_radio",
+        index=["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"].index(st.session_state.current_page)
     )
+    
 
     st.header("Pipeline Details")
     col1, col2, col3 = st.columns(3)
 
     with col1:
         if st.button("🧹 Data Cleaning Pipeline", use_container_width=True):
-            st.session_state.navigation_radio = "Data Cleaning Pipeline"
-            st.experimental_rerun()
+            st.session_state.current_page  = "Data Cleaning Pipeline"
+            st.rerun()
     with col2:
         if st.button("⚙️ Feature Engineering", use_container_width=True):
-            st.session_state.navigation_radio = "Feature Engineering"
-            st.experimental_rerun()
+            st.session_state.current_page  = "Feature Engineering"
+            st.rerun()()
     with col3:
         if st.button("👥 Role-Based Analysis", use_container_width=True):
-            st.session_state.navigation_radio = "Role-Based Analysis"
-            st.experimental_rerun()
+            st.session_state.current_page  = "Role-Based Analysis"
+            st.rerun()
+        
+        # Update current page based on sidebar selection
+    st.session_state.current_page = current_page
     
-    if page == "Pipeline Overview":
+    if current_page == "Pipeline Overview":
     # 3. Model Evaluation and Visualizations 
         st.header("Model Performance")
         try:
@@ -206,7 +215,7 @@ def page_pipeline_overview():
             st.error(f"Error loading model evaluation data: {str(e)}")
 
     
-    if page == "Data Cleaning Pipeline":
+    if current_page == "Data Cleaning Pipeline":
         st.header("Data Cleaning Pipeline")
         
         try:
@@ -270,7 +279,7 @@ def page_pipeline_overview():
         except Exception as e:
             st.error(f"Error in cleaning pipeline: {str(e)}")
     
-    elif page == "Feature Engineering":
+    elif current_page == "Feature Engineering":
         st.header("Feature Engineering Pipeline")
         
         try:
@@ -373,7 +382,7 @@ def page_pipeline_overview():
         except Exception as e:
                 st.error(f"Error in feature engineering pipeline: {str(e)}")
     
-    elif page == "Role-Based Analysis":
+    elif current_page == "Role-Based Analysis":
         st.header("Role-Based Analysis")
         
         try:
