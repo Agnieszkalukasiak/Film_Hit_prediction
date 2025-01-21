@@ -12,17 +12,16 @@ def page_film_success_study_body():
     df_movies = pd.read_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/df_final_cleaned.pkl')
 
     # hard copied from film sucess study customer study notebook
-    vars_to_study = ['Budget', 'language',
-                     'genres']
+    vars_to_study = ['Budget','runtime', 'genre', 'cast', 'crew',]
 
     st.write("### Film Sucess Study")
     st.info(
-        f"* The client is interested in understanding the overall picture of the film industry."
-        f" It's profitibility and what gengre is the most produced.. "
+        f"* The client wants to analyze past film performances to identify the key factors most strongly linked to a film's revenue potential, \n" 
+        f"using only the variables available before a film is greenlit for production.\n "
         )
 
     # inspect data
-    if st.checkbox("Inspect the data the study is based on "):
+    if st.checkbox("Inspect the initial data "):
         st.write(f"The dataset contains {df_movies.shape[0]} rows and {df_movies.shape[1]} columns.")
         st.write("Here are the first 10 rows of the dataset:")
         st.write(df_movies.head(10))
@@ -53,8 +52,13 @@ def page_film_success_study_body():
     # Correlation Study Summary
     # Correlation Study
     st.write("### Revenue Correlation Analysis")
+    st.write(
+    f"* A correlation study was conducted in the notebook to better understand how "
+    f"the available variables are correlated to a film's revenue potential. \n"
+    f"The most relevant variables identified are: **{vars_to_study}**"
+)
     st.info(
-        "Key Insights:\n"
+        "The correlation indications and plots below interpretation converge. It is indicated that:\n"
         "- Revenue correlates strongest with **budget**\n"
         "- High-revenue genres: **Adventure, Action, Animation, Comedy, Fantasy, Sci-Fi**\n"
         "- High-revenue languages: **English, Japanese, Telugu, Chinese**"
