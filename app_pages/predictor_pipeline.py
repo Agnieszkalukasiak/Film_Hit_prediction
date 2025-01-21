@@ -106,11 +106,12 @@ def page_pipeline_overview():
     st.title("Movie Success Prediction Pipeline")
 
     st.info(
-        f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
-        f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
-        f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
-        f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
-        f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
+        f"* The regression model achieved a strong R² score of 0.7839 on the test set, demonstrating its potential in capturing key revenue-driving factors. \n"
+        f"* The model’s performance, with a Root Mean Squared Error (RMSE) of $78.86 million and a Mean Absolute Error (MAE) of $43.71 million, provides valuable insights into revenue predictions. \n"
+        f"* Predicting movie revenues prior to greenlighting a project is inherently challenging due to numerous unforeseen variables; however, the model offers a solid starting point for informed decision-making. \n"
+        f"* While the Mean Absolute Percentage Error (MAPE) posed challenges in predicting lower revenue movies, it highlights opportunities for further refinement. \n"
+        f"* The model excels in predicting high-revenue categories and lays a strong foundation for strategic planning, with ongoing efforts to enhance mid-range revenue predictions. \n"
+        f"* Future enhancements, such as incorporating marketing spend and audience engagement data, have the potential to further improve the model’s accuracy and predictive power."
         )
     
     
@@ -138,12 +139,15 @@ def page_pipeline_overview():
 
     with col1:
         if st.button("🧹 Data Cleaning Pipeline", use_container_width=True):
+            st.session_state.navigation_radio = "Data Cleaning Pipeline"
             st.experimental_rerun()
     with col2:
         if st.button("⚙️ Feature Engineering", use_container_width=True):
+            st.session_state.navigation_radio = "Feature Engineering"
             st.experimental_rerun()
     with col3:
         if st.button("👥 Role-Based Analysis", use_container_width=True):
+            st.session_state.navigation_radio = "Role-Based Analysis"
             st.experimental_rerun()
     
     if page == "Pipeline Overview":

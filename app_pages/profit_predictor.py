@@ -207,6 +207,15 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
 
 def page_predictor_body():
     st.title('Movie Revenue Predictor 🎬')
+    st.info(
+    f"* The client is interested in predicting the **revenue** and **profit** of a film before the **greenlight** decision. "
+    f"This will help in making informed investment decisions and assessing potential risks. \n"
+    f"* The client is also interested in understanding the correlation between various **production variables** available at the early stages "
+    f"and the film's eventual **revenue**, to better evaluate whether a film presents a good **investment opportunity**. \n"
+    f"* These insights will enable the client to optimize resource allocation and maximize the success of film projects."
+    )
+
+    st.subheader('Revenue predictor interface')
     
     try:
         # Load all required data
