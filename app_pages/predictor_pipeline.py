@@ -134,27 +134,32 @@ def page_pipeline_overview():
     st.sidebar.title("Navigation")
     current_page = st.sidebar.radio(
         "Go to",
-        ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"],
+        ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Cast & Crew Engineering Pipeline"],
         key="navigation_radio",
-        index=["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"].index(st.session_state.current_page)
+        index=["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Cast & Crew Engineering Pipeline"].index(st.session_state.current_page)
     )
     
 
     st.header("Pipeline Details")
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4, = st.columns(4)
 
     with col1:
+        if st.button("📊 Pipeline Overview", use_container_width=True):
+            st.session_state.current_page = "Pipeline Overview"
+            st.rerun()
+    with col2:
         if st.button("🧹 Data Cleaning Pipeline", use_container_width=True):
             st.session_state.current_page  = "Data Cleaning Pipeline"
             st.rerun()
-    with col2:
+    with col3:
         if st.button("⚙️ Feature Engineering", use_container_width=True):
             st.session_state.current_page  = "Feature Engineering"
             st.rerun()()
-    with col3:
-        if st.button("👥 Role-Based Analysis", use_container_width=True):
-            st.session_state.current_page  = "Role-Based Analysis"
+    with col4:
+        if st.button("👥 Cast & Crew Engineering Pipeline", use_container_width=True):
+            st.session_state.current_page  = "Cast & Crew Engineering Pipeline"
             st.rerun()
+    
         
         # Update current page based on sidebar selection
     st.session_state.current_page = current_page
@@ -382,8 +387,8 @@ def page_pipeline_overview():
         except Exception as e:
                 st.error(f"Error in feature engineering pipeline: {str(e)}")
     
-    elif current_page == "Role-Based Analysis":
-        st.header("Role-Based Analysis")
+    elif current_page == "Cast & Crew Engineering Pipeline":
+        st.header("Cast & Crew Engineering Pipeline")
         
         try:
             # Load role-based analysis results
