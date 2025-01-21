@@ -28,15 +28,7 @@ def page_film_success_study_body():
         st.write("Here are the first 10 rows of the dataset:")
         st.write(df_movies.head(10))
 
-    '''
-    if st.checkbox("Inspect the plots for profitability "):
-      # Display the plot of general film profitibility
-        st.image(
-            "outputs/figures/Percentage_Movies_making_a_profit_plot.png",
-            caption="Percentage of Profitable Movies",
-            use_column_width=True
-        )
-    '''
+   
 
     # Correlation Study Summary
     st.write("### Revenue Correlation Analysis")
@@ -114,91 +106,82 @@ def page_film_success_study_body():
     f"and requires a deeper, separate analysis."
 
 )
+ 
+    if st.checkbox("Inspect the correlation with revenue"):
+        st.image(
+            "jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
+            caption="Percentage of Profitable Movies",
+            use_container_width=True
+        )
+        st.image(
+            "jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
+            caption="Correlation plot with variables available before greenlight",
+            use_container_width=True
+        )
 
-st.markdown("### 7. **Language and Revenue**")
-st.write(
-    "Language appears to have less impact on revenue overall, but films in **English**, **Japanese**, **Indian**, and **Chinese** languages "
-    "tend to perform significantly better than films in other languages. This highlights the global appeal of these languages in the film industry."
-)
+    if st.checkbox("Inspect Correlation Budget Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/budget_vs_revenue.png",
+            use_container_width=True
+        )
 
-st.markdown("### 8. **Runtime and Revenue**")
-st.write(
-    "**Runtime** seems to have a significant impact on revenue. Films with runtimes between **100 and 130 minutes** tend to perform best at the box office. "
-    "This suggests an optimal film length for audience engagement, balancing pacing and content depth."
-)
+    if st.checkbox("Inspect High and Low Budget Movies Percentage"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Percentage_Movies_making_a_profit_plot.png",
+            use_container_width=True
+        )
 
-st.markdown("### 9. **Film Companies' Role in Revenue**")
-st.write(
-    "Major film studios tend to have a high correlation with revenue. However, surprisingly, some **independent and artistic companies** such as "
-    "**Eon Productions** and **Relativity** also show strong links to film success, demonstrating that financial backing and creative risk-taking "
-    "can lead to profitability."
-)
-
-st.markdown("### 10. **Impact of Country on Revenue**")
-st.write(
-    "The country most strongly linked to high revenue production is the **United States**, clearly reflecting its dominance in the global film industry."
-)
-
-st.markdown("### 11. **The Importance of Cast in Film Revenue**")
-st.write(
-    "Among the 'above the line' functions, **cast** plays the most crucial role in determining a film's revenue. A strong cast can drive audience engagement, "
-    "especially when the actors are associated with successful franchises or high-budget films."
-)
-
-st.markdown("### 12. **Actor Influence on Revenue**")
-st.write(
-    "The relationship between cast and revenue is more complex than just hiring the most popular actors. While actors like **Jack Nicholson**, **Robert De Niro**, "
-    "and **Bruce Willis** are highly popular, actors like **Stan Lee**, **Hugo Weaving**, and **John Ratzenberger** show a stronger correlation with revenue, "
-    "likely due to their association with high-budget productions."
-)
-st.write("**Yet, popularity of cast and crew is one of the key factors driving revenue.**")
-
-st.markdown("### 13. **Director Impact**")
-st.write(
-    "The 'above the line' crew, particularly directors, significantly impact revenue. Renowned directors such as **James Cameron**, **Peter Jackson**, "
-    "**Michael Bay**, and **Steven Spielberg** consistently top the list of most successful directors, suggesting that their involvement "
-    "increases a film's likelihood of high revenue."
-)
-
-st.markdown("### 14. **Producers and Revenue**")
-st.write(
-    "Producers also have a **significant correlation with revenue**, with notable names such as **Kevin Feige, James Cameron, and Peter Jackson** "
-    "often serving as the primary driving force behind a film's success. This highlights the critical importance of a producer’s track record "
-    "in predicting a film’s financial performance."
-)
-
-st.markdown("### 15. **Writers' Influence on Revenue**")
-st.write(
-    "Writers have a more **complex relationship with revenue**. Highly successful writers such as **M. Night Shyamalan and Quentin Tarantino** show a strong "
-    "correlation with high revenue, whereas even well-known writers like **Woody Allen** exhibit a negative relationship with revenue despite their popularity. "
-    "Since the film itself is a reflection of the writer's work, this suggests that the connection between a writer and revenue is more intricate "
-    "and requires a deeper, separate analysis."
-)
-
-'''
-    )
+    if st.checkbox("Inspect Movies Making Profit Percentage "):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Profitable_movies.png",
+            use_container_width=True
+        )
     
+    if st.checkbox("Inspect Movies Revenue Ouliers"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/revenue_outliers.png",
+            use_container_width=True
+        )
+    
+    
+    if st.checkbox("Inspect Correlation Genre Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Genre_ Revenue_corr.png",
+            use_container_width=True
+        )
+    
+    if st.checkbox("Inspect Genre Produced"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Genre_produced.png",
+            use_container_width=True
+        )
+    
+    if st.checkbox("Inspect Correlation Language Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Language_revenue_corr.png",
+            use_container_width=True
+        )
 
-     # Analysis sections
-    revenue_sections = {
-        "Feature Importance": {
-            "title": "Most important features for predicting revenue",
-            "image": "outputs/figures/revenue_correlations_heatmap.png"
-        },
-        "Budget vs Revenue": {
-            "title": "Budget-revenue relationship analysis",
-            "image": "outputs/figures/Budget_vs_Revenue_scatter_points.png"
-        },
-        "Language Analysis": {
-            "title": "Language correlation with revenue",
-            "image": "outputs/figures/Average_Revenue_by_Language.png"
-        },
-        "Genre Analysis": {
-            "title": "Genre revenue patterns",
-            "image": "outputs/figures/Genre_correlation_with_Revenue_plot.png"
-        }
-    }
-
+    if st.checkbox("Inspect Correlation Runtime Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/runtime_revenue.png",
+            use_container_width=True
+        )
+    
+    if st.checkbox("Inspect Correlation Production Company Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/company_revenue.png",
+            use_container_width=True
+        )
+    
+    if st.checkbox("Inspect Correlation Production Country Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/country_revenue.png",
+            use_container_width=True
+        )
+      
+ 
+'''
     for section, data in revenue_sections.items():
         if st.checkbox(f"Show {section}"):
             st.write(data["title"])
