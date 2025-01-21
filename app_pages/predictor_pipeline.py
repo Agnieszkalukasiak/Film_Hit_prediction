@@ -7,7 +7,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OrdinalEncoder
 import pickle
 import os
-import joblib  
+import joblib 
+import matplotlib.pyplot as plt
+import seaborn as sns 
 
 import sys
 sys.path.append('/workspace/Film_Hit_prediction/jupyter_notebooks')
@@ -125,16 +127,21 @@ def page_pipeline_overview():
    ''' 
     st.header("Pipeline Details")
     col1, col2, col3 = st.columns(3)
-    
+
+    page = st.sidebar.radio(
+        "Go to",
+        ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"]
+    )
+
     with col1:
         if st.button("🧹 Data Cleaning Pipeline", use_container_width=True):
-            st.session_state.page = "Data Cleaning Pipeline"
+            page = "Data Cleaning Pipeline"
     with col2:
         if st.button("⚙️ Feature Engineering", use_container_width=True):
-            st.session_state.page = "Feature Engineering"
+            page = "Feature Engineering"
     with col3:
         if st.button("👥 Role-Based Analysis", use_container_width=True):
-            st.session_state.page = "Role-Based Analysis"
+            page = "Role-Based Analysis"
 
     # 3. Model Evaluation and Visualizations (moved from nested section)
     st.header("Model Performance")
