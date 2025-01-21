@@ -143,6 +143,7 @@ def page_film_success_study_body():
             use_container_width=True
         )
     
+     
     
     if st.checkbox("Inspect Correlation Genre Revenue"):
         st.image(
@@ -179,11 +180,37 @@ def page_film_success_study_body():
             "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/country_revenue.png",
             use_container_width=True
         )
+
+    if st.checkbox("Inspect Correlation Between Above The Line Positions and Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/most_important_abovetheline_creatives_revenue.png",
+            use_container_width=True
+        )
       
- 
-'''
-    for section, data in revenue_sections.items():
-        if st.checkbox(f"Show {section}"):
-            st.write(data["title"])
-            st.image(data["image"], use_column_width=True)
-    '''
+
+    if st.checkbox("Inspect Correlation Cast Popularity"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/cast_popularity.png",
+            use_container_width=True
+        )
+    if st.checkbox("Inspect Correlation Cast and Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/cast_revenue.png",
+            use_container_width=True
+        )
+
+    if st.checkbox("Inspect Correlation Director Revenue"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/directors_revenue.png",
+            use_container_width=True
+        )
+    if st.checkbox("Inspect Correlation Producer Revenue"):
+        st.image(
+            "jupyter_notebooks/outputs/figures/producer_revenue.png",
+            use_container_width=True
+        )
+    if st.checkbox("Inspect Correlation Writer Revenue"):
+        st.image(
+            "jupyter_notebooks/outputs/figures/writer_revenue.png",
+            use_container_width=True
+        )
