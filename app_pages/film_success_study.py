@@ -108,11 +108,9 @@ def page_film_success_study_body():
 )
  
     if st.checkbox("Inspect the correlation with revenue"):
-        st.image(
-            "jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
-            caption="Percentage of Profitable Movies",
-            use_container_width=True
-        )
+        df = pd.read_csv("/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/correlations_with_revenue_postproduction.csv")
+        st.dataframe(df, use_container_width=True) 
+        
         st.image(
             "jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
             caption="Correlation plot with variables available before greenlight",
