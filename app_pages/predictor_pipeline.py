@@ -54,6 +54,14 @@ def display_role_metrics(role_data, role_name):
     if role_data is None:
         st.error(f"No data available for {role_name}")
         return
+
+        st.info(
+            f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
+            f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
+            f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
+            f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
+            f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
+        )
         
     st.subheader(f"Top {role_name} Analysis")
 
@@ -288,8 +296,6 @@ def page_pipeline_overview():
         except Exception as e:
                 st.error(f"Error in feature engineering pipeline: {str(e)}")
     
-
-    
     elif page == "Role-Based Analysis":
         st.header("Role-Based Analysis")
         
@@ -311,6 +317,79 @@ def page_pipeline_overview():
         
         except Exception as e:
             st.error(f"Error in role-based analysis: {str(e)}")
+    
+    
+    elif page == "Feature Engineering":
+        st.header("Feature Engineering Pipeline")
+    
+    try:
+        # Load feature engineering pipeline
+        feature_pipeline = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl')
+        
+        if feature_pipeline:
+            tab1, tab2, tab3 = st.tabs(["Pipeline Components", "Detailed Metrics", "Model Performance"])
+
+            # Your existing tab1 and tab2 code stays the same...
+
+            with tab3:
+                st.markdown("### Model Performance Metrics")
+                try:
+                    # Load model evaluation data
+                    model_eval = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/model_evaluation.pkl')
+                    
+                    if model_eval:
+                        # Display metrics in columns
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            st.metric("Root Mean Squared Error", f"${model_eval['metrics']['rmse']:,.2f}")
+                            st.metric("Mean Absolute Error", f"${model_eval['metrics']['mae']:,.2f}")
+                        with col2:
+                            st.metric("R² Score", f"{model_eval['metrics']['r2']:.4f}")
+                            st.metric("Mean Absolute Percentage Error", f"{model_eval['metrics']['mape']:.2f}%")
+
+                        # Visualization section
+                        st.markdown("### Model Visualizations")
+                        
+                        # Actual vs Predicted Plot
+                        st.subheader("Predicted vs Actual Revenue")
+                        viz_data = model_eval['visualization_data']
+                        fig1 = plt.figure(figsize=(10, 6))
+                        plt.scatter(viz_data['actual_vs_predicted']['actual'], 
+                                  viz_data['actual_vs_predicted']['predicted'], 
+                                  alpha=0.5)
+                        plt.plot([viz_data['actual_vs_predicted']['actual'].min(), 
+                                viz_data['actual_vs_predicted']['actual'].max()], 
+                               [viz_data['actual_vs_predicted']['actual'].min(), 
+                                viz_data['actual_vs_predicted']['actual'].max()], 
+                               'r--', lw=2)
+                        plt.xlabel('Actual Revenue')
+                        plt.ylabel('Predicted Revenue')
+                        st.pyplot(fig1)
+
+                        # Residual Plot
+                        st.subheader("Residual Plot")
+                        fig2 = plt.figure(figsize=(10, 6))
+                        plt.scatter(viz_data['residuals']['predicted'], 
+                                  viz_data['residuals']['values'], 
+                                  alpha=0.5)
+                        plt.axhline(y=0, color='r', linestyle='--')
+                        plt.xlabel('Predicted Revenue')
+                        plt.ylabel('Residuals')
+                        st.pyplot(fig2)
+
+                        # Distribution of Residuals
+                        st.subheader("Distribution of Residuals")
+                        fig3 = plt.figure(figsize=(10, 6))
+                        sns.histplot(viz_data['residuals_distribution']['residuals'], kde=True)
+                        plt.xlabel('Residuals')
+                        plt.ylabel('Count')
+                        st.pyplot(fig3)
+
+                except Exception as e:
+                    st.error(f"Error loading model evaluation data: {str(e)}")
+
+    except Exception as e:
+        st.error(f"Error in feature engineering pipeline: {str(e)}")
 
 if __name__ == "__main__":
     st.set_page_config(
