@@ -10,8 +10,8 @@ import os
 import joblib 
 import matplotlib.pyplot as plt
 import seaborn as sns 
-
 import sys
+
 sys.path.append('/workspace/Film_Hit_prediction/jupyter_notebooks')
 
 class MovieFeatureEngineeringPipeline:
@@ -106,14 +106,14 @@ def page_pipeline_overview():
     st.title("Movie Success Prediction Pipeline")
 
     st.info(
-            f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
-            f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
-            f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
-            f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
-            f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
+        f"* This pipeline uses a Random Forest model optimized through GridSearchCV to predict movie revenues. \n"
+        f"* The model achieved an R² score of 0.15, showing the challenge of predicting exact movie revenues. \n"
+        f"* Budget is the most influential feature, accounting for 46.7% of prediction weight. \n"
+        f"* Genre factors like Comedy (4.6%), Drama (4.4%), and Thriller (4.2%) also play significant roles. \n"
+        f"* The model performs with an RMSE of $1.06 and MAE of $0.89 on logged, scaled revenue values."
         )
     
-    '''
+    
     # Define paths
     BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
     PATHS = {
@@ -124,71 +124,93 @@ def page_pipeline_overview():
         'top_producers': os.path.join(BASE_PATH, 'engineered/top_revenue_producers.pkl'),
         'top_writers': os.path.join(BASE_PATH, 'engineered/top_revenue_writers.pkl')
     }
-   ''' 
+   
+    # Single navigation control
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio(
+        "Go to",
+        ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"]
+    )
+
     st.header("Pipeline Details")
     col1, col2, col3 = st.columns(3)
 
-    page = st.sidebar.radio(
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = "Pipeline Overview"
+
+    st.session_state.current_page  = st.sidebar.radio(
         "Go to",
         ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"]
     )
 
     with col1:
         if st.button("🧹 Data Cleaning Pipeline", use_container_width=True):
-            page = "Data Cleaning Pipeline"
+            st.session_state.current_page = "Data Cleaning Pipeline"
+            st.experimental_rerun()
     with col2:
         if st.button("⚙️ Feature Engineering", use_container_width=True):
-            page = "Feature Engineering"
+            st.session_state.current_page = "Feature Engineering"
+            st.experimental_rerun()
     with col3:
         if st.button("👥 Role-Based Analysis", use_container_width=True):
-            page = "Role-Based Analysis"
-
-    # 3. Model Evaluation and Visualizations (moved from nested section)
-    st.header("Model Performance")
-    try:
-        model_eval = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/model_evaluation.pkl')
+            st.session_state.current_page = "Role-Based Analysis"
+            st.experimental_rerun()
+    
+    if st.session_state.current_page == "Pipeline Overview":
+    # 3. Model Evaluation and Visualizations 
+        st.header("Model Performance")
+        try:
+            model_eval = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/model_evaluation.pkl')
         
-        if model_eval:
-            col1, col2 = st.columns(2)
-            with col1:
-                st.metric("Root Mean Squared Error", f"${model_eval['metrics']['rmse']:,.2f}")
-                st.metric("Mean Absolute Error", f"${model_eval['metrics']['mae']:,.2f}")
-            with col2:
-                st.metric("R² Score", f"{model_eval['metrics']['r2']:.4f}")
-                st.metric("Mean Absolute Percentage Error", f"{model_eval['metrics']['mape']:.2f}%")
+            if model_eval:
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.metric("Root Mean Squared Error", f"${model_eval['metrics']['rmse']:,.2f}")
+                    st.metric("Mean Absolute Error", f"${model_eval['metrics']['mae']:,.2f}")
+                with col2:
+                    st.metric("R² Score", f"{model_eval['metrics']['r2']:.4f}")
+                    st.metric("Mean Absolute Percentage Error", f"{model_eval['metrics']['mape']:.2f}%")
 
-            st.subheader("Model Visualizations")
+                st.subheader("Model Visualizations")
             
             # Actual vs Predicted Plot
-            st.subheader("Predicted vs Actual Revenue")
-            viz_data = model_eval['visualization_data']
-            fig1 = plt.figure(figsize=(10, 6))
-            plt.scatter(viz_data['actual_vs_predicted']['actual'], 
-                      viz_data['actual_vs_predicted']['predicted'], 
-                      alpha=0.5)
-            plt.plot([viz_data['actual_vs_predicted']['actual'].min(), 
-                     viz_data['actual_vs_predicted']['actual'].max()], 
-                    [viz_data['actual_vs_predicted']['actual'].min(), 
-                     viz_data['actual_vs_predicted']['actual'].max()], 
-                    'r--', lw=2)
-            plt.xlabel('Actual Revenue')
-            plt.ylabel('Predicted Revenue')
-            st.pyplot(fig1)
+                st.subheader("Predicted vs Actual Revenue")
+                viz_data = model_eval['visualization_data']
+                fig1 = plt.figure(figsize=(10, 6))
+                plt.scatter(viz_data['actual_vs_predicted']['actual'], 
+                        viz_data['actual_vs_predicted']['predicted'], 
+                        alpha=0.5)
+                plt.plot([viz_data['actual_vs_predicted']['actual'].min(), 
+                        viz_data['actual_vs_predicted']['actual'].max()], 
+                        [viz_data['actual_vs_predicted']['actual'].min(), 
+                        viz_data['actual_vs_predicted']['actual'].max()], 
+                        'r--', lw=2)
+                plt.xlabel('Actual Revenue')
+                plt.ylabel('Predicted Revenue')
+                st.pyplot(fig1)
 
-            # Your existing visualization code continues...
+            # Residual Plot
+                st.subheader("Residual Plot")
+                fig2 = plt.figure(figsize=(10, 6))
+                plt.scatter(viz_data['residuals']['predicted'], 
+                          viz_data['residuals']['values'], 
+                          alpha=0.5)
+                plt.axhline(y=0, color='r', linestyle='--')
+                plt.xlabel('Predicted Revenue')
+                plt.ylabel('Residuals')
+                st.pyplot(fig2)
 
-    except Exception as e:
-        st.error(f"Error loading model evaluation data: {str(e)}")
+                # Distribution of Residuals
+                st.subheader("Distribution of Residuals")
+                fig3 = plt.figure(figsize=(10, 6))
+                sns.histplot(viz_data['residuals_distribution']['residuals'], kde=True)
+                plt.xlabel('Residuals')
+                plt.ylabel('Count')
+                st.pyplot(fig3)
 
+        except Exception as e:
+            st.error(f"Error loading model evaluation data: {str(e)}")
 
-
-
-    # Sidebar navigation
-    st.sidebar.title("Navigation")
-    page = st.sidebar.radio(
-        "Go to",
-        ["Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"]
-    )
     
     if page == "Data Cleaning Pipeline":
         st.header("Data Cleaning Pipeline")
