@@ -129,34 +129,24 @@ def page_pipeline_overview():
     st.sidebar.title("Navigation")
     page = st.sidebar.radio(
         "Go to",
-        ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"]
+        ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"],
+        key="navigation_radio"
     )
 
     st.header("Pipeline Details")
     col1, col2, col3 = st.columns(3)
 
-    if 'current_page' not in st.session_state:
-        st.session_state.current_page = "Pipeline Overview"
-
-    st.session_state.current_page  = st.sidebar.radio(
-        "Go to",
-        ["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Role-Based Analysis"]
-    )
-
     with col1:
         if st.button("🧹 Data Cleaning Pipeline", use_container_width=True):
-            st.session_state.current_page = "Data Cleaning Pipeline"
             st.experimental_rerun()
     with col2:
         if st.button("⚙️ Feature Engineering", use_container_width=True):
-            st.session_state.current_page = "Feature Engineering"
             st.experimental_rerun()
     with col3:
         if st.button("👥 Role-Based Analysis", use_container_width=True):
-            st.session_state.current_page = "Role-Based Analysis"
             st.experimental_rerun()
     
-    if st.session_state.current_page == "Pipeline Overview":
+    if page == "Pipeline Overview":
     # 3. Model Evaluation and Visualizations 
         st.header("Model Performance")
         try:
