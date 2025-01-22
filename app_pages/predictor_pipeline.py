@@ -95,11 +95,6 @@ def page_pipeline_overview():
         f"but it does not predict revenue with the accuracy necessary to make an investment safe. \n\n"
         f"* The model’s performance, with a** Root Mean Squared Error (RMSE) of 79.57 million** and a **Mean Absolute Error (MAE) of $44.05 million**, "
         f"provides valuable insights into revenue predictions, but also highlights the inherent uncertainties in forecasting film revenue prior to greenlight.  \n\n "
-        f"* The residuals analysis indicates that while the model's predictions are generally unbiased "
-        f"with a mean residual of **$190,215.39**, the high standard deviation of **$79.62 million** suggests "
-        f"considerable variability in errors. Additionally, the positive skewness (**0.66**) reveals a tendency to "
-        f"underpredict revenue, and significant discrepancies in low-revenue films highlight the model's limitations "
-        f"in handling edge cases effectively."
         )
     
     BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
@@ -160,24 +155,6 @@ def page_pipeline_overview():
                     st.metric("Mean Absolute Percentage Error", f"{model_eval['metrics']['mape']:.2f}%")
 
                 st.subheader("Model Visualizations")
-
-                # Residuals Analysis Here
-                st.subheader("Residuals Analysis")
-                residuals = model_eval['residuals']
-                st.write(f"**Mean of residuals:** ${residuals.mean():,.2f}")
-                st.write(f"**Standard deviation of residuals:** ${residuals.std():,.2f}")
-                st.write(f"**Skewness of residuals:** {residuals.skew():.2f}")
-
-                # Display sample predictions
-                st.subheader("Sample Predictions (First 5 Movies)")
-                comparison_df = pd.DataFrame({
-                    'Actual Revenue': model_eval['y_test'],
-                    'Predicted Revenue': model_eval['y_pred'],
-                    'Absolute Error': np.abs(model_eval['y_test'] - model_eval['y_pred']),
-                    'Percentage Error': np.abs((model_eval['y_test'] - model_eval['y_pred']) / model_eval['y_test']) * 100
-                })
-                st.dataframe(comparison_df.head())
-            
                 st.subheader("Predicted vs Actual Revenue")
                 viz_data = model_eval['visualization_data']
                 fig1 = plt.figure(figsize=(10, 6))
