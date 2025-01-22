@@ -39,5 +39,6 @@ def page_project_summary_body():
     st.success(
         f"**The project has 2 business requirements**\n"
         f"* 1. The client is interested in predicting the **revenue** and **profit** of a film before the **greenlight**.\n "
-        f"* 2. The client is interested in understanding the correlation between the **variables** available at the time of production and the film's **revenue**."
-        f"To be able to better assess whether a film presents a good **investment opportunity**.\n")
+        f"* 2. The client is interested in understanding the correlation between the **variables** available before a film is greenlit and its **revenue**, "
+        f"in order to assess whether a film is a good **investment opportunity** and which **variables** might be indicators.\n"
+    )

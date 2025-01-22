@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
-
 def page_film_success_study_body():
 
     # load data
@@ -28,17 +27,14 @@ def page_film_success_study_body():
         st.write("Here are the first 10 rows of the dataset:")
         st.write(df_movies.head(10))
 
-   
-
     # Correlation Study Summary
     st.write("### Revenue Correlation Analysis")
     st.write(
     f"* A correlation study was conducted in the notebook to better understand how "
     f"the available variables are correlated to a film's revenue potential. \n"
     f"The most relevant variables identified are: **{vars_to_study}**"
-)
+    )
 
-   
     st.info(
     f"The correlation indications and plots below interpretation converge. It is indicated that:\n\n"
     
@@ -104,8 +100,7 @@ def page_film_success_study_body():
     f"correlation with high revenue, whereas even well-known writers like **Woody Allen** exhibit a negative relationship with revenue despite their popularity. "
     f"Since the film itself is a reflection of the writer's work, this suggests that the connection between a writer and revenue is more intricate "
     f"and requires a deeper, separate analysis."
-
-)
+    )
  
     if st.checkbox("Inspect the correlation with revenue"):
         df = pd.read_csv("/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/correlations_with_revenue_postproduction.csv")
@@ -140,8 +135,6 @@ def page_film_success_study_body():
             "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/revenue_outliers.png",
             use_container_width=True
         )
-    
-     
     
     if st.checkbox("Inspect Correlation Genre Revenue"):
         st.image(
@@ -185,7 +178,6 @@ def page_film_success_study_body():
             use_container_width=True
         )
       
-
     if st.checkbox("Inspect Correlation Cast Popularity"):
         st.image(
             "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/cast_popularity.png",

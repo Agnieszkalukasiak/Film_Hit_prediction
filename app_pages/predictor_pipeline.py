@@ -24,12 +24,7 @@ class MovieFeatureEngineeringPipeline:
         self.producer_data = producer_data
         self.writer_data = writer_data
 
-# Print current working directory to help with debugging
-st.write("Current working directory:", os.getcwd())
-
-# Define the correct base path
 BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
-
 
 def load_pickle(file_path):
     try:
@@ -59,21 +54,12 @@ def display_role_metrics(role_data, role_name):
         
     st.subheader(f"Top {role_name} Analysis")
 
-    # Debug: Print the structure of role_data
-    st.write("Role data keys:", role_data.keys() if isinstance(role_data, dict) else "Not a dictionary")
-    if isinstance(role_data, dict) and 'metrics' in role_data:
-        st.write("First metric keys:", next(iter(role_data['metrics'].values())).keys() if role_data['metrics'] else "No metrics")
-    
-    
-    # Show the columns (top performers)
     if isinstance(role_data, dict) and 'columns' in role_data:
         st.write(f"Number of top {role_name.lower()}: {len(role_data['columns'])}")
     
-    # Clean the names
     clean_names = [name.split('_')[-1] for name in role_data['columns']]
     st.write(f"Top {role_name}:", ', '.join(clean_names))
 
-    # Metrics for specific person
     if 'metrics' in role_data and role_data['metrics']:
         selected_person = st.selectbox(
             f"Select a {role_name.lower()} to see their metrics:",
@@ -106,16 +92,12 @@ def page_pipeline_overview():
     st.title("Movie Success Prediction Pipeline")
 
     st.info(
-        f"* The regression model achieved a strong R² score of 0.7839 on the test set, demonstrating its potential in capturing key revenue-driving factors. \n"
-        f"* The model’s performance, with a Root Mean Squared Error (RMSE) of $78.86 million and a Mean Absolute Error (MAE) of $43.71 million, provides valuable insights into revenue predictions. \n"
-        f"* Predicting movie revenues prior to greenlighting a project is inherently challenging due to numerous unforeseen variables; however, the model offers a solid starting point for informed decision-making. \n"
-        f"* While the Mean Absolute Percentage Error (MAPE) posed challenges in predicting lower revenue movies, it highlights opportunities for further refinement. \n"
-        f"* The model excels in predicting high-revenue categories and lays a strong foundation for strategic planning, with ongoing efforts to enhance mid-range revenue predictions. \n"
-        f"* Future enhancements, such as incorporating marketing spend and audience engagement data, have the potential to further improve the model’s accuracy and predictive power."
+        f"* **The regression** model achieved a **strong R² score of 0.7839** on the test set, demonstrating its potential in capturing key revenue-driving factors, "
+        f"but it does not predict revenue with the accuracy necessary to make an investment safe. \n\n"
+        f"* The model’s performance, with a** Root Mean Squared Error (RMSE) of 78.86 million** and a **Mean Absolute Error (MAE) of $43.71 million**, "
+        f"provides valuable insights into revenue predictions, but also highlights the inherent uncertainties in forecasting film revenue prior to greenlight.  \n\n "
         )
     
-    
-    # Define paths
     BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
     PATHS = {
         'feature_engineering': os.path.join(BASE_PATH, 'models/movie_feature_engineering_pipeline.pkl'),
@@ -126,11 +108,9 @@ def page_pipeline_overview():
         'top_writers': os.path.join(BASE_PATH, 'engineered/top_revenue_writers.pkl')
     }
    
-     # Initialize session state for navigation if not exists
     if 'current_page' not in st.session_state:
         st.session_state.current_page = "Pipeline Overview"
 
-    # Single navigation control
     st.sidebar.title("Navigation")
     current_page = st.sidebar.radio(
         "Go to",
@@ -138,7 +118,6 @@ def page_pipeline_overview():
         key="navigation_radio",
         index=["Pipeline Overview", "Data Cleaning Pipeline", "Feature Engineering", "Cast & Crew Engineering Pipeline"].index(st.session_state.current_page)
     )
-    
 
     st.header("Pipeline Details")
     col1, col2, col3, col4, = st.columns(4)
@@ -159,13 +138,10 @@ def page_pipeline_overview():
         if st.button("👥 Cast & Crew Engineering Pipeline", use_container_width=True):
             st.session_state.current_page  = "Cast & Crew Engineering Pipeline"
             st.rerun()
-    
         
-        # Update current page based on sidebar selection
     st.session_state.current_page = current_page
     
     if current_page == "Pipeline Overview":
-    # 3. Model Evaluation and Visualizations 
         st.header("Model Performance")
         try:
             model_eval = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/model_evaluation.pkl')
@@ -181,7 +157,6 @@ def page_pipeline_overview():
 
                 st.subheader("Model Visualizations")
             
-            # Actual vs Predicted Plot
                 st.subheader("Predicted vs Actual Revenue")
                 viz_data = model_eval['visualization_data']
                 fig1 = plt.figure(figsize=(10, 6))
@@ -197,7 +172,6 @@ def page_pipeline_overview():
                 plt.ylabel('Predicted Revenue')
                 st.pyplot(fig1)
 
-            # Residual Plot
                 st.subheader("Residual Plot")
                 fig2 = plt.figure(figsize=(10, 6))
                 plt.scatter(viz_data['residuals']['predicted'], 
@@ -208,7 +182,6 @@ def page_pipeline_overview():
                 plt.ylabel('Residuals')
                 st.pyplot(fig2)
 
-                # Distribution of Residuals
                 st.subheader("Distribution of Residuals")
                 fig3 = plt.figure(figsize=(10, 6))
                 sns.histplot(viz_data['residuals_distribution']['residuals'], kde=True)
@@ -219,22 +192,18 @@ def page_pipeline_overview():
         except Exception as e:
             st.error(f"Error loading model evaluation data: {str(e)}")
 
-    
     if current_page == "Data Cleaning Pipeline":
         st.header("Data Cleaning Pipeline")
         
         try:
-            # Load cleaning pipeline
             encoders_and_filters = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl')
             
             if encoders_and_filters:
-                # Create tabs for different aspects of cleaning
                 tab1, tab2 = st.tabs(["Pipeline Steps", "Transformation Details"])
                 
                 with tab1:
                     st.markdown("### Pipeline Components")
                     
-                    # Group pipeline steps by category
                     categories = {
                         "Encoding": [step for step in encoders_and_filters.keys() if 'mlb' in step or 'encoder' in step],
                         "Filtering": [step for step in encoders_and_filters.keys() if 'min_appearances' in step or 'positions' in step],
@@ -288,7 +257,6 @@ def page_pipeline_overview():
         st.header("Feature Engineering Pipeline")
         
         try:
-            # Load feature engineering pipeline
             feature_pipeline = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl')
             
             if feature_pipeline:
@@ -297,7 +265,6 @@ def page_pipeline_overview():
                 with tab1:
                     st.markdown("### Feature Engineering Components")
                 
-                # Display feature engineering steps
                     with st.expander("Scaling and Transformation", expanded=True):
                         if hasattr(feature_pipeline, 'feature_scaler'):
                             col1, col2 = st.columns([1, 2])
@@ -305,7 +272,7 @@ def page_pipeline_overview():
                                 st.code("Feature Scaler")
                             with col2:
                                 st.write(type(feature_pipeline.feature_scaler).__name__)
-                # Transform Data
+
                 with st.expander("Transform Data", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
                         data = feature_pipeline.transform_data
@@ -315,13 +282,11 @@ def page_pipeline_overview():
                                 if isinstance(value, (list, dict)):
                                     st.write(f"Number of items: {len(value)}")
                 
-                # Numeric Features
                 with st.expander("Numeric Features", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
                         numeric_cols = feature_pipeline.transform_data.get('numeric_cols', [])
                         st.write(f"Number of numeric features: {len(numeric_cols)}")
                 
-                # Genre Features
                 with st.expander("Genre Features", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
                         genres = feature_pipeline.transform_data.get('genre_columns', [])
@@ -329,7 +294,6 @@ def page_pipeline_overview():
                         if genres:
                             st.write("Available genres:", ", ".join(genres))
 
-                # Movie Metrics
                 with st.expander("Movie Metrics", expanded=True):
                     if hasattr(feature_pipeline, 'transform_data'):
                         col1, col2, col3 = st.columns(3)
@@ -340,7 +304,6 @@ def page_pipeline_overview():
                         with col3:
                             st.metric("Popularity", "Available" if 'popularity' in feature_pipeline.transform_data.get('numeric_cols', []) else "Not Available")
                         
-                # Cast & Crew Features
                 with st.expander("Cast & Crew Features", expanded=True):
                     col1, col2 = st.columns(2)
                     with col1:
@@ -352,7 +315,6 @@ def page_pipeline_overview():
 
                 with tab2:
                     st.markdown("### Role Based Metrics")
-                # Actor Data
                     with st.expander("Actor Data", expanded=True):
                         if hasattr(feature_pipeline, 'actor_data'):
                             data = feature_pipeline.actor_data
@@ -360,7 +322,6 @@ def page_pipeline_overview():
                                 st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
                                 st.write(f"Number of columns: {len(data.get('columns', []))}")
 
-                # Director Data
                     with st.expander("Director Data", expanded=True):
                         if hasattr(feature_pipeline, 'director_data'):
                             data = feature_pipeline.director_data
@@ -368,7 +329,6 @@ def page_pipeline_overview():
                                 st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
                                 st.write(f"Number of columns: {len(data.get('columns', []))}")
 
-                # Producer Data
                     with st.expander("Producer Data", expanded=True):
                         if hasattr(feature_pipeline, 'producer_data'):
                             data = feature_pipeline.producer_data
@@ -376,7 +336,6 @@ def page_pipeline_overview():
                                 st.write(f"Number of metrics: {len(data.get('metrics', {}))}")
                                 st.write(f"Number of columns: {len(data.get('columns', []))}")
 
-                # Writer Data
                     with st.expander("Writer Data", expanded=True):
                         if hasattr(feature_pipeline, 'writer_data'):
                             data = feature_pipeline.writer_data
@@ -391,7 +350,6 @@ def page_pipeline_overview():
         st.header("Cast & Crew Engineering Pipeline")
         
         try:
-            # Load role-based analysis results
             roles_data = {
                 "Actors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl'),
                 "Directors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl'),
@@ -399,7 +357,6 @@ def page_pipeline_overview():
                 "Writers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl'),
             }
             
-            # Create tabs for different roles
             tabs = st.tabs(list(roles_data.keys()))
             
             for tab, (role_name, role_data) in zip(tabs, roles_data.items()):
@@ -409,7 +366,6 @@ def page_pipeline_overview():
         except Exception as e:
             st.error(f"Error in role-based analysis: {str(e)}")
         
-
 if __name__ == "__main__":
     st.set_page_config(
         page_title="Movie Success Prediction Pipeline",
