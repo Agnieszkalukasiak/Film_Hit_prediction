@@ -8,9 +8,7 @@ import seaborn as sns
 import pickle
 import traceback
 
-
 def get_default_values():
-    """Return default values if data loading fails"""
     return {
         'top_actors': {'columns': ['Tom Cruise', 'Brad Pitt', 'Leonardo DiCaprio']},
         'top_directors': {'columns': ['Steven Spielberg', 'Christopher Nolan', 'Martin Scorsese']},
@@ -19,7 +17,6 @@ def get_default_values():
     }
 
 def load_data():
-    """Load all necessary models and data"""
     try:
         print("Loading models and data...")
         
@@ -90,7 +87,6 @@ def load_data():
         traceback.print_exc()
         return None
 
-
 def predict_movie_revenue(budget, runtime, genres, language, production_company, 
                           production_country, actor1, actor2, crew_director, 
                           crew_writer, crew_producer, popularity=0):
@@ -103,7 +99,6 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         (model, transform_data, cleaning_data, engineering_pipeline, predict_func,
          _, _, _, _) = data
 
-        # Create initial raw data
         raw_data = {
             'budget': budget,
             'runtime': runtime,
@@ -120,15 +115,12 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
             'popularity': popularity
         }
 
-       # Create DataFrame
         input_df = pd.DataFrame([raw_data])
 
-        # Filter out None values from crew list
         input_df['crew'] = input_df['crew'].apply(lambda x: [item for item in x if item is not None])
 
         print("Data loaded, beginning feature engineering...")
 
-        # Apply cleaning based on the cleaning data dictionary
         if 'frequent_crew' in cleaning_data:
             input_df['crew'] = input_df['crew'].apply(
                 lambda x: [person for person in x if person in cleaning_data['frequent_crew']]
@@ -151,25 +143,19 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
 
         print("Cleaning complete, starting feature engineering...")
 
-        # Initialize all possible feature columns with 0
-
         model_features = [f for f in transform_data['all_features'] if f != 'revenue']
         feature_df = pd.DataFrame(0, index=input_df.index, columns=model_features)
 
-        # Fill in numeric values
         feature_df['budget'] = input_df['budget']
         feature_df['runtime'] = input_df['runtime']
         feature_df['popularity'] = input_df['popularity']
         feature_df['budget_per_minute'] = feature_df['budget'] / feature_df['runtime']
 
-
-        # Handle genres
         for genre in genres:
             genre_col = f'genre_{genre}'
             if f'genre_{genre}' in feature_df.columns:
                 feature_df[f'genre_{genre}'] = 1
 
-        # Handle language
         if 'language_encoder' in transform_data['encoders_and_filters']:
             lang_encoder = transform_data['encoders_and_filters']['language_encoder']
             if language in lang_encoder.classes_:
@@ -177,19 +163,16 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
 
         print("Basic features created, proceeding with final transformations...")
 
-        # Scale numeric features if scaler exists
         numeric_cols = [col for col in transform_data['numeric_cols'] if col != 'revenue']
         if 'feature_scaler' in transform_data:
             feature_df[numeric_cols] = transform_data['feature_scaler'].transform(feature_df[numeric_cols])
 
         print(f"Final feature matrix shape: {feature_df.shape}")
 
-        # Make prediction
         raw_prediction = model.predict(feature_df)[0]
         print(f"Raw prediction from model: {raw_prediction}")
 
-        # Don't apply scaling factors - the prediction is already in the right units
-        predicted_revenue = raw_prediction  # The model predicts in dollars
+        predicted_revenue = raw_prediction  
         predicted_revenue = max(0, predicted_revenue) 
         
         return {
@@ -204,19 +187,17 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         traceback.print_exc()
         return None
 
-
 def page_predictor_body():
     st.title('Movie Revenue Predictor 🎬')
     st.info(
-    f"* The client is interested in predicting the **revenue** and **profit** of a film before the **greenlight** decision. "
-    f"This will help in making informed investment decisions and assessing potential risks. \n"
+    f"**The client is interested in predicting the revenue and profit of a film before production**.  \n"
+    f"To help make **informed investment decisions** and assess potential risks. \n"
     f"These insights will enable the client to optimize resource allocation and maximize the success of film projects."
     )
 
     st.subheader('Revenue predictor interface')
     
     try:
-        # Load all required data
         data = load_data()
         if data is None:
             return
@@ -224,10 +205,8 @@ def page_predictor_body():
         (model, transform_data, cleaning_data, engineering_pipeline, predict_func,
          top_actors, top_directors, top_writers, top_producers) = data
         
-        # Create form
         st.write("Enter movie details:")
         
-        # Basic movie info
         col1, col2 = st.columns(2) 
 
         with col1:
@@ -235,26 +214,21 @@ def page_predictor_body():
             runtime = st.number_input('Runtime (minutes)', min_value=0, value=120)
             
         with col2:
-            # Get languages from encoder
             language = st.selectbox('Language', transform_data['encoders_and_filters']['language_encoder'].classes_)
-            # Get countries
+
             production_country = st.selectbox('Production Country', 
                                            transform_data['encoders_and_filters']['frequent_countries']+ ['Other'])
             if production_country == 'Other':
                 production_country = st.text_input('Enter Production Country Name')
 
-
-        # Genre selection (multiple)
         genres = transform_data['genre_columns']
         selected_genres = st.multiselect('Select Genres', genres)
         
-        # Production company
         production_company = st.selectbox('Production Company', 
                                         transform_data['encoders_and_filters']['frequent_companies']+ ['Other'])
         if production_company == 'Other':
             production_company = st.text_input('Enter Production Company Name')
         
-        # Cast and Crew
         st.subheader('Cast and Crew')
         col3, col4 = st.columns(2)
         
@@ -298,7 +272,6 @@ def page_predictor_body():
                 )
                 
                 if prediction:
-                    # Display results in columns
                     st.success('Prediction successful! 🎯')
                     
                     col1, col2, col3 = st.columns(3)

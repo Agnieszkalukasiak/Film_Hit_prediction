@@ -14,7 +14,7 @@ def page_film_success_study_body():
     vars_to_study = ['Budget','genre', 'cast', 'runtime',
     'producer','director', 'production company', 'production country', 'popularity of elemnts atatched',]
 
-    st.write("### Film Sucess Study")
+    st.title("Film Sucess Study")
     st.info(
     f"* The client wants to identify the key factors most strongly linked to a film's revenue potential \n"
     f"  using only the data available before the film is greenlit, to better assess its investment appeal \n"
