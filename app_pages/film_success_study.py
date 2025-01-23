@@ -36,11 +36,12 @@ def page_film_success_study_body():
     )
 
     st.info(
-    f"The correlation indications and plots below interpretation converge. It is indicated that:\n\n"
+    f"***The correlation indications and plots below interpretation converge. It is indicated that:***\n\n"
     
-    f"Many of the key variables influencing film revenue are the ones known after the film is produced, such as **vote count popularity**, **vote average**,"
-    f"and **audience engagement**. As these variables are not known until the film is done,"
-    f" it is hard to predict revenue with certainty, making films a **high risk investment** .\n\n"
+    f"**Revenue predictions before greenlight and after production**  \n"
+    f"* Many of the key variables influencing film revenue are the ones only known **after the film is produced**, such as **vote count, popularity, vote average**, "
+    f"and **film's unique ID**. As these variables are not known until the film is done, "
+    f"it is hard to predict revenue before greenlight with certainty, making films a **high risk investment** .\n\n"
 
     f"**Budget-Driven Success**  \n"
     f"* Only 25% of movies have a **high budget**, yet films with larger budgets tend to generate **higher box office**, "
@@ -102,15 +103,17 @@ def page_film_success_study_body():
     f"and requires a deeper, separate analysis."
     )
  
-    if st.checkbox("Inspect the correlation with revenue"):
-        df = pd.read_csv("/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/correlations_with_revenue_postproduction.csv")
-        st.dataframe(df, use_container_width=True) 
-        
+    if st.checkbox("Inspect the correlation with revenue **after a film is produced**"):
         st.image(
-            "jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
-            caption="Correlation plot with variables available before greenlight",
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/after_production_correlations_study.png",
             use_container_width=True
-        )
+            ) 
+
+    if st.checkbox("Inspect the correlation with revenue **prior to greenlight**"):
+        st.image(
+            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
+            use_container_width=True
+        ) 
 
     if st.checkbox("Inspect Correlation Budget Revenue"):
         st.image(

@@ -92,12 +92,12 @@ def page_pipeline_overview():
 
     st.info(
         f"* **The regression** model achieved a **strong R² score of 0.9609 on the training set**, indicating that it effectively captures the underlying revenue-driving factors in the data. "
-        f"However, the significantly lower **R² score of 0.7800 on the test set** suggests the model may be overfitting, as it does not generalize as well to unseen data. \n\n"
-        f"* The training performance, with a **Root Mean Squared Error (RMSE) of 33.85 million** and a **Mean Absolute Error (MAE) of 16.25 million**, "
-        f"demonstrates that the model performs exceptionally well on known data. However, the higher ***test errors RMSE: 79.57 million, MAE: 44.05 million highlight the challenges in predicting revenue accurately for new films**, "
+        f"However, the significantly lower **R² score of 0.7800 on the test set** suggests that the model may be overfitting, as it struggles to generalize to unseen data. \n\n"
+        f"* The training performance, with a **Mean Absolute Error (MAE) of 16.25 million**, "
+        f"demonstrates that the model performs exceptionally well on known data. However, the significantly higher **test error (MAE: 44.05 million)** highlights the challenges in predicting revenue accurately for new films, "
         f"indicating potential overfitting and the complexities of film revenue forecasting. \n\n"
-        f"* Despite the promising training results, the model’s performance on the test set emphasizes the uncertainties inherent in predicting film revenue before greenlighting a project. "
-        f"Further improvements, such as incorporating additional features or regularization techniques, may help enhance the model’s generalization capabilities. \n\n"
+        f"* Despite the promising training results, **the model’s performance on the test set emphasizes the uncertainties inherent in predicting revenue on a film prior to greenlight,** "
+        f"primarily due to the limitations of pre-greenlighting data. Further improvements, such as incorporating additional features or regularization techniques, may help enhance the model’s generalization capabilities. \n\n"
         )
     
     BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
@@ -161,7 +161,8 @@ def page_pipeline_overview():
                 with col1:
                     st.metric("R² Score", f"{model_eval['test']['metrics']['r2']:.4f}")
                 with col2:
-                    st.metric("Mean Absolute Error", f"${model_eval['train']['metrics']['mae']:,.2f}")
+                    st.metric("Mean Absolute Error", f"${model_eval['test']['metrics']['mae']:,.2f}")
+
                 st.subheader("Model Visualizations")
                 st.write("Predicted vs Actual Revenue")
                 fig1 = plt.figure(figsize=(10, 6))

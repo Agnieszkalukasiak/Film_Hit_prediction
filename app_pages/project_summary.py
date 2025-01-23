@@ -3,7 +3,15 @@ import streamlit as st
 def page_project_summary_body():
     st.write("### Quick Project Summary")
 
-    # text based on README file - "Dataset Content" section
+    st.success(
+        f"**Project Dataset** \n\n"
+        f"The dataset is sourced from **Kaggle's TMDB movie data**, "
+        f"which consists of two combined datasets containing information on **5,000 movies**. \n\n "
+        f"The dataset includes details such as budget, genres, homepage, id, keywords, original_language, "
+        f"original_title, overview, popularity, production_companies, production_countries, release_date, "
+        f"revenue, runtime, spoken_languages, status, tagline, title_x, vote_average, vote_count, title_y, cast, and crew. \n\n"
+        )
+        
     st.info(
         f"**Project Terms & Jargon**\n"
         f"* **Revenue** : The total money a film has earned. \n"
@@ -22,13 +30,9 @@ def page_project_summary_body():
         f"* **Greenlight**: The moment a film is cleared for starting the production process, signifying that all necessary approvals, funding, and logistics are in place.\n"
         f"* **Above the line positions**: These are the key creative roles (like **Writer**, **Producer**, **Director**) that are determined before production begins." 
         f"They are responsible for the overall creative vision and strategic direction of the film.\n"
-
-        f"**Project Dataset**\n"
-        f"* The dataset represents **Kaggle's TMDB movie data**, "
-        f"containing information for 5,000 movies, including their revenues, budgets, languages, genres, production companies,"
-        f"IDs, titles, cast, and crew.\n")
+    )
+        
      
-
     # Link to README file, so the users can have access to full project documentation
     st.write(
         f"* For additional information, please visit and **read** the "
