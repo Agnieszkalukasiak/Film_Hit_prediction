@@ -83,70 +83,102 @@ The dataset has data on 5000 films in tow sets, one with 4 rows represeting movi
 
 #### Business Requirement 1: Data Visualization and Correlation Study
 
-* We will load, inspect, clean, feature engineer and evaluate the data related to the film project in question.
+* We will import, examine, preprocess, engineer features, and assess the data associated with the film project under consideration.
 
-* We will conduct a correlation study to better understand how each variable correlates and impacts the film revenue.
+* We will perform an analysis to explore the relationships between variables and their influence on film revenue.
 
-* We will use the visual representations of the data (graphs) to validate hypotheses and also anwser our business requirements.
+* We will utilize graphical data visualizations to confirm hypotheses and address our business requirements.
 
-For more information, please visit the "Film Success Study" workbook.
+For more information, please visit the "Film Success Study" notebook.
 
 
 #### Business Requirement 2: Regression Pipeline
 
-* We want to be able to predict the revenue and profit for the project before the greenlight.
+* We want to be able to predict the revenue and profit for a film project before greenlight.
 
-* We built a regression model to help predict the revenue and profit. We also trained this model.
+* We built and trained a regression model to help predict the revenue and profit. 
 
-* We also want to find out R2 score and Mean Absolute Error. (See screenshots).
+* We want to find out R2 score and Mean Absolute Error, Root Mean Squared Error, Mean Absolute Percentage Error. (See screenshots).
 
-## ML Business Case
-* In the previous bullet, you potentially visualized an ML task to answer a business requirement. You should frame the business case using the method we covered in the course 
+![Alt Text](./images/your-image.png)
+
+### Machine Learning Business Case
+
+* We need to implement an ML model to predict the revenue and profit of a film. For this particular project, we went with a Regression Model. A Regression Model can be defined as a model which describes the relationship between one or more independent variables and a target variable. The target variable in this case is the Revenue.
+
+* We want to provide the client with an app that with will predict the revenue of a film prior to greenlight.  Which will give them a better chance to make a safe investment.
+
+* The model success metrics are as follows: At least 0.75 R2 score on train and test set and the model would be considered a failure if after 12 months has elapsed, that the model would stop predicting the revenue accurately.
+
+* As mentioned above, the target variable is revenue.
 
 
 ## Dashboard Design
-* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
-* Later, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but subsequently you used another plot type).
+* The dashboard contains a very simple layout. It contains 5 pages, Project Summary, Feature Correlation, Sale Price Predictor, Project Hypothesis and Validation and ML Sale Price Pipeline.
+
+* Predictor pipeline, is divided into 4 pages: Pipeline Overview, Data Cleaning Pipeline, Feature Engineering,
+Cast & Crew Engineering Pipeline.
 
 
 
 ## Unfixed Bugs
-* You will need to mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation is not a valid reason to leave bugs unfixed.
+* No bugs
+
 
 ## Deployment
 ### Heroku
 
-* The App live link is: https://YOUR_APP_NAME.herokuapp.com/ 
-* Set the runtime.txt Python version to a [Heroku-20](https://devcenter.heroku.com/articles/python-support#supported-runtimes) stack currently supported version.
-* The project was deployed to Heroku using the following steps.
+Create a Heroku accout if you haven't done so already.
 
-1. Log in to Heroku and create an App
-2. At the Deploy tab, select GitHub as the deployment method.
-3. Select your repository name and click Search. Once it is found, click Connect.
-4. Select the branch you want to deploy, then click Deploy Branch.
-5. The deployment process should happen smoothly if all deployment files are fully functional. Click now the button Open App on the top of the page to access your App.
-6. If the slug size is too large then add large files not required for the app to the .slugignore file.
+Create a new app, give it a unique name and select your region from the options provided.
+
+Connect to GitHub (you might be asked to confirm login through the mobile app if you have it downloaded).
+
+Select the appropriate branch from which you want to deploy the project from.
+
+Deploy the project. Keep an eye on the build log if the deployment fails, this will suggest any changes that need to be made in order to deploy successfully.
 
 
 ## Main Data Analysis and Machine Learning Libraries
-* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
+
+Streamlit: This is what we used to create the dashboard. Building apps using Streamlit is effortless. It's particularly useful for data applications and machine learning models. It's also handy for people with minimal front-end experience.
+
+NumPy: This is what we used to process arrays and the store the values. This is a powerful library for numerical computing in Python.
+
+Pandas: We used this for data manipulation and analysis. It provides two main structures, Series and DataFrames. DataFrames are something we used a lot in this project.
+
+Matplotlib: This was used for generating graphs for data visualization.
+
+Scikit-learn: This was used for pipeline creation and the application of algorithms throughout my project. It also provides tools for predictive modelling and model evaluation.
+
+Seaborn: This was particularly useful for the visualization of data on Streamlit. It implements attractive and styled visuals.
+
+Git: This was used for version control. You can write a commit message using the following commands: -> **"git add ." -> "git commit -m message" -> "git push". It's good practice to keep commit messages under 50 characters.
+
+Feature-engine: This library is essential for the Feature Engineering notebook. It also offers transformer classes.
+
+Kaggle: This is where the dataset we used for Heritage Housing Issues was used. The link can be found above and was granted to us by Code Institute.
+
+Python: The main programming language used for this project.
 
 
 ## Credits 
 
-* In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism. 
-* You can break the credits section up into Content and Media, depending on what you have included in your project. 
+Coding envirment for dyslectics.
 
-### Content 
+My mentor Mo Shami, for his patience and guidance through the development of this project.
 
-- The text for the Home page was taken from Wikipedia Article A
-- Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
-- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
+My brother Sean, for his help and input.
 
-### Media
+The Churnometer walkthrough was very helpful with this project.
 
-- The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site
+The template for the project is provided by Code Institute.
+
+The Code Institute LMS contained all the lessons which helped me become familiar with the concepts around this project.
+
+The dataset was accessed on Kaggle through Code Institute.
+
+Roman and John of Code Institute who were very helpful and patient with my queries on the Slack channel.
 
 
 
