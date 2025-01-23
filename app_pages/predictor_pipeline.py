@@ -146,43 +146,53 @@ def page_pipeline_overview():
             model_eval = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/model_evaluation.pkl')
         
             if model_eval:
+                st.info("Train Metrics")
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.metric("Root Mean Squared Error", f"${model_eval['metrics']['rmse']:,.2f}")
-                    st.metric("Mean Absolute Error", f"${model_eval['metrics']['mae']:,.2f}")
+                    st.metric("Root Mean Squared Error", f"${model_eval['train']['metrics']['rmse']:,.2f}")
+                    st.metric("Mean Absolute Error", f"${model_eval['train']['metrics']['mae']:,.2f}")
                 with col2:
-                    st.metric("R² Score", f"{model_eval['metrics']['r2']:.4f}")
-                    st.metric("Mean Absolute Percentage Error", f"{model_eval['metrics']['mape']:.2f}%")
+                    st.metric("R² Score", f"{model_eval['train']['metrics']['r2']:.4f}")
+                    st.metric("Mean Absolute Percentage Error", f"{model_eval['train']['metrics']['mape']:.2f}%")
+                
+                st.info("Test Metrics")
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.metric("Root Mean Squared Error", f"${model_eval['test']['metrics']['rmse']:,.2f}")
+                    st.metric("Mean Absolute Error", f"${model_eval['test']['metrics']['mae']:,.2f}")
+                with col2:
+                    st.metric("R² Score", f"{model_eval['test']['metrics']['r2']:.4f}")
+                    st.metric("Mean Absolute Percentage Error", f"{model_eval['test']['metrics']['mape']:.2f}%")
 
                 st.subheader("Model Visualizations")
-                st.subheader("Predicted vs Actual Revenue")
-                viz_data = model_eval['visualization_data']
+                st.write("Predicted vs Actual Revenue")
                 fig1 = plt.figure(figsize=(10, 6))
-                plt.scatter(viz_data['actual_vs_predicted']['actual'], 
-                        viz_data['actual_vs_predicted']['predicted'], 
+
+                plt.scatter(model_eval['test']['actual'], 
+                        model_eval['test']['predictions'], 
                         alpha=0.5)
-                plt.plot([viz_data['actual_vs_predicted']['actual'].min(), 
-                        viz_data['actual_vs_predicted']['actual'].max()], 
-                        [viz_data['actual_vs_predicted']['actual'].min(), 
-                        viz_data['actual_vs_predicted']['actual'].max()], 
+                plt.plot([model_eval['test']['actual'].min(),  
+                        model_eval['test']['actual'].max()], 
+                        [model_eval['test']['actual'].min(), 
+                        model_eval['test']['actual'].max()], 
                         'r--', lw=2)
                 plt.xlabel('Actual Revenue')
                 plt.ylabel('Predicted Revenue')
                 st.pyplot(fig1)
 
-                st.subheader("Residual Plot")
+                st.write("Residual Plot")
                 fig2 = plt.figure(figsize=(10, 6))
-                plt.scatter(viz_data['residuals']['predicted'], 
-                          viz_data['residuals']['values'], 
-                          alpha=0.5)
+                plt.scatter (model_eval['test']['predictions'], 
+                            model_eval['test']['residuals'],
+                            alpha=0.5)
                 plt.axhline(y=0, color='r', linestyle='--')
                 plt.xlabel('Predicted Revenue')
                 plt.ylabel('Residuals')
                 st.pyplot(fig2)
 
-                st.subheader("Distribution of Residuals")
+                st.write("Distribution of Residuals")
                 fig3 = plt.figure(figsize=(10, 6))
-                sns.histplot(viz_data['residuals_distribution']['residuals'], kde=True)
+                sns.histplot(model_eval['test']['residuals'], kde=True)
                 plt.xlabel('Residuals')
                 plt.ylabel('Count')
                 st.pyplot(fig3)
