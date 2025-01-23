@@ -25,10 +25,32 @@ The dataset has data on 5000 films in tow sets, one with 4 rows represeting movi
 
 2 - 08 Industries is interested in predicting the revenue and profit from the variables of the film, avaialble prior to the greenlight. 
 
+## User Stories
+
+---
+
+#### User story 1 - Create Dashboard (BR1)
+
+* As a User I want to be able to access an easy-to-use dashboard that showcases graphs and other relevant information. The dashboard is divided up into 5 different pages, Project Summary, Feature Correlation, Revenue Predictor, Project Hypotheses and Validation and ML Movie Revenue Preditiction Pipeline. You can find a detailed outline of the 5 pages below.
+
+#### User Story 2 - Dataset Access (BR1)
+
+* As a Software Developer, I want to have access to a dataset which will allow me to create this project and carry out the necessary tasks to manipulate and visualize data. The dataset was sourced from Kaggle.
+
+#### User Story 3 - Data Cleaning (BR1)
+
+* As a Software Developer, I must clean the data in order to handle missing values and remove errors and inconsistencies. I also need to encode the string data and filter out the irrelevant data to the requiered parameters prior to greenlighting, so that I have a dataset to work with for our project. 
+
 
 ## Hypothesis and how to validate?
-* List here your project hypothesis(es) and how you envision validating it (them) 
 
+* We suspect that the variables available prior to greenlighting are insufficient to precisely determine a film's success, making it a risky investment.
+
+* We will validate this through a thorough correlation study between revenue and the variables available before greenlighting.
+
+* We will validate the model's predictability by comparing its predictions against actual outcomes in a holdout validation set, calculating key performance metrics such as accuracy, precision, recall, and mean squared error (MSE) for regression tasks or confusion matrix analysis for classification tasks.  
+
+PHOTo
 
 ## The rationale to map the business requirements to the Data Visualizations and ML tasks
 * List your business requirements and a rationale to map them to the Data Visualizations and ML tasks

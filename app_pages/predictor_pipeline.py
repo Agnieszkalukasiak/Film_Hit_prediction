@@ -88,7 +88,7 @@ def display_role_metrics(role_data, role_name):
                 st.metric("Composite Score", f"{metrics['composite_score']:.3f}")
 
 def page_pipeline_overview():
-    st.title("Movie Success Prediction Pipeline")
+    st.title("Movie Revenue Prediction Pipeline")
 
     st.info(
         f"* **The regression** model achieved a **strong R² score of 0.7800** on the test set, demonstrating its potential in capturing key revenue-driving factors, "
