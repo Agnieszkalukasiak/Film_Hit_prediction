@@ -91,10 +91,13 @@ def page_pipeline_overview():
     st.title("Movie Revenue Prediction Pipeline")
 
     st.info(
-        f"* **The regression** model achieved a **strong R² score of 0.7800** on the test set, demonstrating its potential in capturing key revenue-driving factors, "
-        f"but it does not predict revenue with the accuracy necessary to make an investment safe. \n\n"
-        f"* The model’s performance, with a** Root Mean Squared Error (RMSE) of 79.57 million** and a **Mean Absolute Error (MAE) of $44.05 million**, "
-        f"provides valuable insights into revenue predictions, but also highlights the inherent uncertainties in forecasting film revenue prior to greenlight.  \n\n "
+        f"* **The regression** model achieved a **strong R² score of 0.9609** on the training set, indicating that it effectively captures the underlying revenue-driving factors in the data. "
+        f"However, the significantly lower R² score of 0.7800 on the test set suggests the model may be overfitting, as it does not generalize as well to unseen data. \n\n"
+        f"* The training performance, with a **Root Mean Squared Error (RMSE) of $33.85 million** and a **Mean Absolute Error (MAE) of $16.25 million**, "
+        f"demonstrates that the model performs exceptionally well on known data. However, the much higher test errors (RMSE: $79.57 million, MAE: $44.05 million) highlight the challenges in predicting revenue accurately for new films, "
+        f"indicating potential overfitting and the complexities of film revenue forecasting. \n\n"
+        f"* Despite the promising training results, the model’s performance on the test set emphasizes the uncertainties inherent in predicting film revenue before greenlighting a project. "
+        f"Further improvements, such as incorporating additional features or regularization techniques, may help enhance the model’s generalization capabilities. \n\n"
         )
     
     BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
