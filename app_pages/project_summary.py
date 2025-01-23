@@ -1,7 +1,7 @@
 import streamlit as st
 
 def page_project_summary_body():
-    st.write("### Quick Project Summary")
+    st.title("Project Summary")
 
     st.success(
         f"**Project Dataset** \n\n"
@@ -36,7 +36,7 @@ def page_project_summary_body():
     # Link to README file, so the users can have access to full project documentation
     st.write(
         f"* For additional information, please visit and **read** the "
-        f"[Project README filfit e](https://github.com/Code-Institute-Solutions/churnometer).")
+        f"[Project README filfit e](https://github.com/Agnieszkalukasiak/Film_Hit_prediction/blob/main/README.md).")
     
 
     # copied from README file - "Business Requirements" section

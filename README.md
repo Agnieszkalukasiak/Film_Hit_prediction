@@ -2,10 +2,8 @@
 
 ## Film Hit Prediction
 
-## Note to the assessment team
-"This project is my final submission for the Full Stack Software Development diploma, where I have built a data-driven application using Streamlit. Learning everything from scratch and making this project in just six weeks — without tutor support and with limited mentorship or as in my case damaging mentorship (* I will add a specific note regarding that to the submission, to better explain what happened and how it effected this project.")—made the journey incredibly challenging. However, it has been equally rewarding to create an app that holds real value for me and my colleagues in the film industry. Exploring the data has been fascinating, revealing unexpected correlations and insights that I hadn't considered before. Although time constraints and technical limitations meant I couldn't include more complex data and processing, I am excited to continue developing this app in the future with enhanced features and deeper analysis."
-
-![Alt Text](./images/your-image.png)
+## ***Note to the assessment team***
+***This project is my final submission for the Full Stack Software Development diploma, where I have built a data-driven application using Streamlit. Learning everything from scratch and making this project in just six weeks — without tutor support and with misinformed and unsuportive mentorship (I will add a specific note regarding that to my submission. I consequenlt only had a mentor in my final week)—made the journey incredibly challenging. However, it has been equally rewarding to create an app that holds real value for me and my colleagues in the film industry. Exploring the data has been fascinating, revealing unexpected correlations and insights that I hadn't considered before. Although time constraints and technical limitations meant I couldn't include more complex data and processing, I am excited to continue developing this app in the future with enhanced features and deeper analysis.***
 
 
 You can find the deployed site here.
