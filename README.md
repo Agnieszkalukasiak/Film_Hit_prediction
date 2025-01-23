@@ -1,55 +1,29 @@
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
-## Template Instructions
+## Film Hit Prediction
 
-Welcome,
+## Note to the assessment team
+"This project is my final submission for the Full Stack Software Development diploma, where I have built a data-driven application using Streamlit. Learning everything from scratch and making this project in just six weeks — without tutor support and with limited mentorship or as in my case damaging mentorship (* I will add a specific note regarding that to the submission, to better explain what happened and how it effected this project.")—made the journey incredibly challenging. However, it has been equally rewarding to create an app that holds real value for me and my colleagues in the film industry. Exploring the data has been fascinating, revealing unexpected correlations and insights that I hadn't considered before. Although time constraints and technical limitations meant I couldn't include more complex data and processing, I am excited to continue developing this app in the future with enhanced features and deeper analysis."
 
-This is the Code Institute student template for the bring your own data project option in Predictive Analytics. We have preinstalled all of the tools you need to get started. It's perfectly okay to use this template as the basis for your project submissions. Click the `Use this template` button above to get started.
-
-You can safely delete the Template Instructions section of this README.md file and modify the remaining paragraphs for your own project. Please do read the Template Instructions at least once, though! It contains some important information about the IDE and the extensions we use.
-
-## How to use this repo
-
-1. Use this template to create your GitHub project repo
-
-1. Log into your cloud IDE with your GitHub account.
-
-1. On your Dashboard, click on the New Workspace button
-
-1. Paste in the URL you copied from GitHub earlier
-
-1. Click Create
-
-1. Wait for the workspace to open. This can take a few minutes.
-
-1. Open a new terminal and `pip3 install -r requirements.txt`
-
-1. Open the jupyter_notebooks directory, and click on the notebook you want to open.
-
-1. Click the kernel button and choose Python Environments.
-
-Note that the kernel says Python 3.8.18 as it inherits from the workspace, so it will be Python-3.8.18 as installed by our template. To confirm this, you can use `! python --version` in a notebook code cell.
-
-## Cloud IDE Reminders
-
-To log into the Heroku toolbelt CLI:
-
-1. Log in to your Heroku account and go to _Account Settings_ in the menu under your avatar.
-2. Scroll down to the _API Key_ and click _Reveal_
-3. Copy the key
-4. In the terminal, run `heroku_config`
-5. Paste in your API key when asked
+PHOTO HERE
 
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
-
+You can find the deployed site here.
 
 ## Dataset Content
-* Describe your dataset. Choose a dataset of reasonable size to avoid exceeding the repository's maximum size and to have a shorter model training time. If you are doing an image recognition project, we suggest you consider using an image shape that is 100px × 100px or 50px × 50px, to ensure the model meets the performance requirement but is smaller than 100Mb for a smoother push to GitHub. A reasonably sized image set is ~5000 images, but you can choose ~10000 lines for numeric or textual data. 
+The dataset is sourced from Kaggle. We then created a user story based on the needs of an film investment company, 08Industries, where predictive analytics could be applied. 
+
+The dataset has data on 5000 films in tow sets, one with 4 rows represeting movies id, title, cast, crew. The other dataset has 20 rows and represent budget, genres, homepage, id, keywords, original_language, original_title, overview, popularity, production_companies, production_countries, release_date, revenue, runtime, spoken_languages, status, tagline, title, vote_average, vote_count 
+. In combination they are all the film data. Theweakness of the dataset is that it last was updated 8 years ago so the data is not up to date.  
 
 
 ## Business Requirements
-* Describe your business requirements
+
+08 Indusrties, an film investment company wants to invest in a film. As investment in films happens prior in greenlight, 08 Industries wanted to apply predictive analytics to try and assess the safety of their investmnet.
+
+1 - 08 Industires are interested in discovering how the variables of the project known before greenlight correlate to the film revenue, to assess the safety of investing in films.
+
+2 - 08 Industries is interested in predicting the revenue and profit from the variables of the film, avaialble prior to the greenlight. 
 
 
 ## Hypothesis and how to validate?
