@@ -9,9 +9,9 @@
 You can find the deployed site here.
 
 ## Dataset Content
-The dataset is sourced from Kaggle. We then created a user story based on the needs of an film investment company, 08Industries, where predictive analytics could be applied. 
+The "TMDB 5000 Movie Dataset", sourced from Kaggle, was used as the foundation for our analysis. We developed a user story tailored to the needs of 08Industries, a film investment company, where predictive analytics could be applied to support data-driven decision-making.
 
-The dataset has data on 5000 films in two sets, one with 4 rows represeting movies id, title, cast, crew. The other dataset has 20 rows and represent budget, genres, homepage, id, keywords, original_language, original_title, overview, popularity, production_companies, production_countries, release_date, revenue, runtime, spoken_languages, status, tagline, title, vote_average, vote_count . In combination they are all the film data. The weakness of the dataset is that it was last updated 8 years ago, so the data is not up to date.  
+The dataset contains information on 5,000 films, split into two separate files. The first dataset consists of 4 columns, representing key movie details such as id, title, cast, and crew. The second dataset provides a more comprehensive view with 20 columns, covering attributes such as budget, genres, homepage, id, keywords, original_language, original_title, overview, popularity, production_companies, production_countries, release_date, revenue, runtime, spoken_languages, status, tagline, title, vote_average, and vote_count. Together, these datasets provide a holistic overview of the films included in the dataset. A key limitation of the dataset is that it was last updated eight years ago, meaning the data may not accurately reflect current industry trends and market conditions.
 
 ![Alt Text](./images/credits_dataset.png)
 
