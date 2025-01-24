@@ -22,7 +22,7 @@ def load_data():
         
         # Load the trained model
         print("Loading model...")
-        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250119.joblib')
+        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250124.joblib')
         
         # Load the saved transformation data
         print("Loading transformation data...")
@@ -48,25 +48,25 @@ def load_data():
         top_producers = get_default_values()['top_producers']
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/top_actors.pkl', 'rb') as f:
+            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl', 'rb') as f:
                 top_actors = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top actors: {str(e)}")
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/top_directors.pkl', 'rb') as f:
+            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl', 'rb') as f:
                 top_directors = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top directors: {str(e)}")
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/top_writers.pkl', 'rb') as f:
+            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl', 'rb') as f:
                 top_writers = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top writers: {str(e)}")
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/top_producers.pkl', 'rb') as f:
+            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl', 'rb') as f:
                 top_producers = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top producers: {str(e)}")
