@@ -10,7 +10,7 @@ def page_film_success_study_body():
     # load data
     df_movies = pd.read_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/df_final_cleaned.pkl')
 
-    # hard copied from film sucess study customer study notebook
+    # copied from film sucess study customer study notebook
     vars_to_study = ['Budget','genre', 'cast', 'runtime',
     'producer','director', 'production company', 'production country', 'popularity of elemnts atatched',]
 
@@ -44,9 +44,9 @@ def page_film_success_study_body():
     f"it is hard to predict revenue before greenlight with certainty, making films a **high risk investment** .\n\n"
 
     f"**Budget-Driven Success**  \n"
-    f"* Only 25% of movies have a **high budget**, yet films with larger budgets tend to generate **higher box office**, "
+    f"* Only **25%** of movies have a **high budget**, yet films with larger budgets tend to generate **higher box office**, "
     "indicating that producers need to carefully balance investment and expected return. However, this also makes the industry more prone to financial **risk**.  \n\n"
-    f"* Around 29% of movies fall into the **low budget** category, highlighting that films with limited budgets often generate **low revenue**. "
+    f"* Around **29%** of movies fall into the **low budget** category, highlighting that films with limited budgets often generate **low revenue**. "
     f"Despite the increased risks associated with low-budget films, there may still be **outliers that perform exceptionally well**, driven by factors such as "
     f"creative talent, marketing strategies, or audience appeal.  \n\n"
 
@@ -133,7 +133,7 @@ def page_film_success_study_body():
             width=None
         )
     
-    if st.checkbox("Inspect Movies Revenue Ouliers"):
+    if st.checkbox("Movies Revenue Ouliers"):
         st.image(
             "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/revenue_outliers.png",
             width=None

@@ -91,10 +91,10 @@ def page_pipeline_overview():
     st.title("Movie Revenue Prediction Pipeline")
 
     st.info(
-        f"* **The regression** model achieved a **strong R² score of 0.9609 on the training set**, indicating that it effectively captures the underlying revenue-driving factors in the data. "
-        f"However, the significantly lower **R² score of 0.7800 on the test set** suggests that the model may be overfitting, as it struggles to generalize to unseen data. \n\n"
-        f"* The training performance, with a **Mean Absolute Error (MAE) of 16.25 million**, "
-        f"demonstrates that the model performs exceptionally well on known data. However, the significantly higher **test error (MAE: 44.05 million)** highlights the challenges in predicting revenue accurately for new films, "
+        f"* **The regression** model achieved a **strong R² score of 0.9422 on the training set**, indicating that it effectively captures the underlying revenue-driving factors in the data. "
+        f"However, the significantly lower **R² score of 0.7778 on the test set** suggests that the model may be overfitting, as it struggles to generalize to unseen data. \n\n"
+        f"* The training performance, with a **Mean Absolute Error (MAE) of 19.22 million**, "
+        f"demonstrates that the model performs exceptionally well on known data. However, the significantly higher **test error (MAE: 44.09 million)** highlights the challenges in predicting revenue accurately for new films, "
         f"indicating potential overfitting and the complexities of film revenue forecasting. \n\n"
         f"* Despite the promising training results, **the model’s performance on the test set emphasizes the uncertainties inherent in predicting revenue on a film prior to greenlight,** "
         f"primarily due to the limitations of pre-greenlighting data. Further improvements, such as incorporating additional features or regularization techniques, may help enhance the model’s generalization capabilities. \n\n"
