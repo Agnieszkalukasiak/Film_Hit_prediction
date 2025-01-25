@@ -1,4 +1,5 @@
---find-links https://scipy.org/older-scipy-wheels/scipy-1.5.2-cp39-cp39-manylinux1_x86_64.whl scipy==1.5.2
+--index-url https://pypi.org/simple
+scipy==1.5.2
 click==7.1.2
 contourpy==1.1.1
 cycler==0.12.1
