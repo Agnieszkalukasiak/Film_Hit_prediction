@@ -62,7 +62,7 @@ def page_film_success_study_body():
     f"* Investing in less frequently produced genres, such as Fantasy, would be recomended. \n\n"
 
     f"**Language and Revenue**\n\n"
-    f"* Language appears to have less impact on revenue overall, but films in **English**, **Japanese**, **Indian**, and **Chinese** languages "
+    f"* Language appears to have less impact on revenue overall, but films in **Indian*', **English**, **Japanese**, and **Chinese** languages "
     f"tend to perform significantly better than films in other languages. This highlights the global appeal of these languages in the film industry.\n\n"
     
     f"**Runtime and Revenue**\n\n"
