@@ -22,7 +22,7 @@ def load_data():
         
         # Load the trained model
         print("Loading model...")
-        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250124.joblib')
+        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250125.joblib')
         
         # Load the saved transformation data
         print("Loading transformation data...")
