@@ -11,11 +11,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 import sys
 import sklearn
-from lfs_utils import ensure_lfs_files
-ensure_lfs_files()
+import subprocess
+
+def ensure_lfs_files():
+    subprocess.run(["git", "lfs", "pull"])
 
 
 sys.path.append('/workspace/Film_Hit_prediction/jupyter_notebooks')
+
+
 
 class MovieFeatureEngineeringPipeline:
     def __init__(self, feature_scaler=None, transform_data=None, actor_data=None, 

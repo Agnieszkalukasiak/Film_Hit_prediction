@@ -11,8 +11,10 @@ import yaml
 import sklearn
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
-from lfs_utils import ensure_lfs_files
-ensure_lfs_files()
+import subprocess
+
+def ensure_lfs_files():
+    subprocess.run(["git", "lfs", "pull"])
 
 class DummyEncoder:
     def __init__(self):
