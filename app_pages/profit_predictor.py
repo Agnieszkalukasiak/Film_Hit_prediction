@@ -7,14 +7,27 @@ import numpy as np
 import seaborn as sns 
 import pickle
 import traceback
+import yaml
+
+class DummyEncoder:
+    def __init__(self):
+        self.classes_ = ['en']
+    def transform(self, x):
+        return [0]
 
 def get_default_values():
-    return {
-        'top_actors': {'columns': ['Tom Cruise', 'Brad Pitt', 'Leonardo DiCaprio']},
-        'top_directors': {'columns': ['Steven Spielberg', 'Christopher Nolan', 'Martin Scorsese']},
-        'top_writers': {'columns': ['Aaron Sorkin', 'Quentin Tarantino', 'Charlie Kaufman']},
-        'top_producers': {'columns': ['Jerry Bruckheimer', 'Kevin Feige', 'Scott Rudin']}
-    }
+    transform_data = {'encoders_and_filters': {'language_encoder': DummyEncoder()}}
+    transform_data.update({
+        'all_features': ['budget', 'runtime', 'popularity'],
+        'numeric_cols': ['budget', 'runtime'],
+        'top_actors': {'columns': ['Tom Cruise']},
+        'top_directors': {'columns': ['Spielberg']},
+        'top_writers': {'columns': ['Sorkin']},
+        'top_producers': {'columns': ['Bruckheimer']}
+    })
+    return transform_data
+        
+    
 
 def load_data():
     try:
@@ -24,14 +37,22 @@ def load_data():
         print("Loading model...")
         model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250126.joblib')
         
+        try:
+            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
+                feature_scaler = pickle.load(f)
+        except Exception as e:
+            print(f"Warning: Could not load feature scaler: {str(e)}")
+            feature_scaler = None
+        try:
         # Load the saved transformation data
-        print("Loading transformation data...")
-        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
-            transform_data = pickle.load(f)
-
-        # Load feature scaler
-        with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
-            feature_scaler = pickle.load(f)
+            print("Loading transformation data...")
+            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
+                transform_data = pickle.load(f)
+                if 'feature_scaler' not in transform_data and feature_scaler:
+                    transform_data['feature_scaler'] = feature_scaler
+        except Exception as e:
+            print(f"Warning: Could not load transformation data: {str(e)}")
+            transform_data = {'encoders_and_filters': {}, 'numeric_cols': [], 'genre_columns': []}
             
         # Initialize cleaning data with defaults
         cleaning_data = {
@@ -86,6 +107,7 @@ def load_data():
         st.error(f"Error loading data: {str(e)}")
         traceback.print_exc()
         return None
+
 
 def predict_movie_revenue(budget, runtime, genres, language, production_company, 
                           production_country, actor1, actor2, crew_director, 
