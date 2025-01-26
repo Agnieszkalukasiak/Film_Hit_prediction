@@ -11,6 +11,8 @@ import yaml
 import sklearn
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
+from lfs_utils import ensure_lfs_files
+ensure_lfs_files()
 
 class DummyEncoder:
     def __init__(self):
