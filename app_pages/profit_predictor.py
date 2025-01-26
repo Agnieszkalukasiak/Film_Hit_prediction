@@ -168,8 +168,6 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
         raw_prediction = model.predict(feature_df)[0]
         print(f"Raw prediction from model: {raw_prediction}")
 
-        
-
         predicted_revenue = raw_prediction  
         predicted_revenue = max(0, predicted_revenue) 
         
