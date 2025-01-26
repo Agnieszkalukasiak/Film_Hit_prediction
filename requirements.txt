@@ -76,3 +76,13 @@ yellowbrick==1.5
 kaggle==1.5.12
 kagglehub==0.2.9
 pyyaml==6.0.1
+argon2-cffi==23.1.0
+argon2-cffi-bindings==21.2.0
+async-lru==2.0.4
+jupyter-client==8.6.3
+jupyter-core==5.7.2 
+jupyter-events==0.10.0
+jupyter-lsp==2.2.5
+jupyter-server==2.14.2
+jupyter-server-terminals==0.5.3
+jupyterlab==4.2.6
