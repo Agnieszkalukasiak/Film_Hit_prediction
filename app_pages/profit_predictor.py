@@ -160,20 +160,11 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
             if language in lang_encoder.classes_:
                 feature_df['language_encoded'] = lang_encoder.transform([language])[0]
 
-        #print("Basic features created, proceeding with final transformations...")
-        #st.write("Feature matrix created")
-        #st.write("Feature names:", list(feature_df.columns)[:5]) 
-
         numeric_cols = [col for col in transform_data['numeric_cols'] if col != 'revenue']
         if 'feature_scaler' in transform_data:
             feature_df[numeric_cols] = transform_data['feature_scaler'].transform(feature_df[numeric_cols])
 
-
-       #st.write("Model features:", model.feature_names_in_[:5]) 
-       # st.write("Input features:", feature_df.columns.tolist()[:5])
         feature_df = feature_df[model.feature_names_in_]
-        #st.write("After reordering:", feature_df.columns.tolist()[:5])
-
         raw_prediction = model.predict(feature_df)[0]
         print(f"Raw prediction from model: {raw_prediction}")
 
