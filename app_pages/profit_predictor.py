@@ -8,6 +8,9 @@ import seaborn as sns
 import pickle
 import traceback
 import yaml
+import sklearn
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 
 class DummyEncoder:
     def __init__(self):
@@ -31,20 +34,30 @@ def get_default_values():
 
 def load_data():
     try:
+        import sys
+        print("Python imports:")
+        import sklearn
+        print(f"sklearn version: {sklearn.__version__}")
+        print(f"sklearn path: {sklearn.__path__}")
+        
+        print("\nPickle header check:")
+        path = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl'
+        with open(path, 'rb') as f:
+            header = f.read(50)
+            print(f"Hex: {header.hex()}")
+            print(f"ASCII: {header}")
+
         print("Loading models and data...")
-        
-        # Load the trained model
-        print("Loading model...")
         model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250126.joblib')
-        
+        transform_data = get_default_values()
+
         try:
             with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
-                feature_scaler = pickle.load(f)
+                transform_data['feature_scaler'] = pickle.load(f)
         except Exception as e:
             print(f"Warning: Could not load feature scaler: {str(e)}")
-            feature_scaler = None
+
         try:
-        # Load the saved transformation data
             print("Loading transformation data...")
             with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
                 transform_data = pickle.load(f)
