@@ -22,7 +22,7 @@ def load_data():
         
         # Load the trained model
         print("Loading model...")
-        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250125.joblib')
+        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250126.joblib')
         
         # Load the saved transformation data
         print("Loading transformation data...")
@@ -91,7 +91,6 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
                           production_country, actor1, actor2, crew_director, 
                           crew_writer, crew_producer, popularity=0):
     try:
-
         data = load_data()
         if data is None:
             return None
@@ -161,16 +160,24 @@ def predict_movie_revenue(budget, runtime, genres, language, production_company,
             if language in lang_encoder.classes_:
                 feature_df['language_encoded'] = lang_encoder.transform([language])[0]
 
-        print("Basic features created, proceeding with final transformations...")
+        #print("Basic features created, proceeding with final transformations...")
+        #st.write("Feature matrix created")
+        #st.write("Feature names:", list(feature_df.columns)[:5]) 
 
         numeric_cols = [col for col in transform_data['numeric_cols'] if col != 'revenue']
         if 'feature_scaler' in transform_data:
             feature_df[numeric_cols] = transform_data['feature_scaler'].transform(feature_df[numeric_cols])
 
-        print(f"Final feature matrix shape: {feature_df.shape}")
+
+       #st.write("Model features:", model.feature_names_in_[:5]) 
+       # st.write("Input features:", feature_df.columns.tolist()[:5])
+        feature_df = feature_df[model.feature_names_in_]
+        #st.write("After reordering:", feature_df.columns.tolist()[:5])
 
         raw_prediction = model.predict(feature_df)[0]
         print(f"Raw prediction from model: {raw_prediction}")
+
+        
 
         predicted_revenue = raw_prediction  
         predicted_revenue = max(0, predicted_revenue) 
