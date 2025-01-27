@@ -8,7 +8,7 @@ import pandas as pd
 def page_film_success_study_body():
 
     # load data
-    df_movies = pd.read_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/df_final_cleaned.pkl')
+    df_movies = pd.read_pickle('jupyter_notebooks/outputs/cleaned/df_final_cleaned.pkl')
 
     # copied from film sucess study customer study notebook
     vars_to_study = ['Budget','genre', 'cast', 'runtime',
@@ -105,96 +105,96 @@ def page_film_success_study_body():
  
     if st.checkbox("Inspect the correlation with revenue **after a film is produced**"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/after_production_correlations_study.png",
+            "jupyter_notebooks/outputs/figures/after_production_correlations_study.png",
             width=None
             ) 
 
     if st.checkbox("Inspect the correlation with revenue **prior to greenlight**"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
+            "jupyter_notebooks/outputs/figures/before_greenlight_correlations_study.png",
             width=None
         ) 
 
     if st.checkbox("Inspect Correlation Budget Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/budget_vs_revenue.png",
+            "jupyter_notebooks/outputs/figures/budget_vs_revenue.png",
             width=None
         )
 
     if st.checkbox("Inspect High and Low Budget Movies Percentage"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Percentage_Movies_making_a_profit_plot.png",
+            "jupyter_notebooks/outputs/figures/Percentage_Movies_making_a_profit_plot.png",
             width=None
         )
 
     if st.checkbox("Inspect Movies Making Profit Percentage "):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Profitable_movies.png",
+            "jupyter_notebooks/outputs/figures/Profitable_movies.png",
             width=None
         )
     
     if st.checkbox("Movies Revenue Ouliers"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/revenue_outliers.png",
+            "jupyter_notebooks/outputs/figures/revenue_outliers.png",
             width=None
         )
     
     if st.checkbox("Inspect Correlation Genre Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Genre_ Revenue_corr.png",
+            "jupyter_notebooks/outputs/figures/Genre_ Revenue_corr.png",
             width=None
         )
     
     if st.checkbox("Inspect Genre Produced"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Genre_produced.png",
+            "jupyter_notebooks/outputs/figures/Genre_produced.png",
             width=None
         )
     
     if st.checkbox("Inspect Correlation Language Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/Language_revenue_corr.png",
+            "jupyter_notebooks/outputs/figures/Language_revenue_corr.png",
             width=None
         )
 
     if st.checkbox("Inspect Correlation Runtime Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/runtime_revenue.png",
+            "jupyter_notebooks/outputs/figures/runtime_revenue.png",
             width=None
         )
     
     if st.checkbox("Inspect Correlation Production Company Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/company_revenue.png",
+            "jupyter_notebooks/outputs/figures/company_revenue.png",
             width=None
         )
     
     if st.checkbox("Inspect Correlation Production Country Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/country_revenue.png",
+            "jupyter_notebooks/outputs/figures/country_revenue.png",
             width=None
         )
 
     if st.checkbox("Inspect Correlation Between Above The Line Positions and Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/most_important_abovetheline_creatives_revenue.png",
+            "jupyter_notebooks/outputs/figures/most_important_abovetheline_creatives_revenue.png",
             width=None
         )
       
     if st.checkbox("Inspect Correlation Cast Popularity"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/cast_popularity.png",
+            "jupyter_notebooks/outputs/figures/cast_popularity.png",
             width=None
         )
     if st.checkbox("Inspect Correlation Cast and Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/cast_revenue.png",
+            "jupyter_notebooks/outputs/figures/cast_revenue.png",
             width=None
         )
 
     if st.checkbox("Inspect Correlation Director Revenue"):
         st.image(
-            "/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/figures/directors_revenue.png",
+            "jupyter_notebooks/outputs/figures/directors_revenue.png",
             width=None
         )
     if st.checkbox("Inspect Correlation Producer Revenue"):

@@ -17,7 +17,7 @@ def ensure_lfs_files():
     subprocess.run(["git", "lfs", "pull"])
 
 
-sys.path.append('/workspace/Film_Hit_prediction/jupyter_notebooks')
+sys.path.append('jupyter_notebooks')
 
 
 
@@ -31,7 +31,7 @@ class MovieFeatureEngineeringPipeline:
         self.producer_data = producer_data
         self.writer_data = writer_data
 
-BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
+BASE_PATH = 'jupyter_notebooks/outputs'
 
 def load_pickle(file_path):
     try:
@@ -108,7 +108,7 @@ def page_pipeline_overview():
         f"primarily due to the limitations of pre-greenlighting data. Further improvements, such as incorporating additional features or regularization techniques, may help enhance the model’s generalization capabilities. \n\n"
         )
     
-    BASE_PATH = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs'
+    BASE_PATH = 'jupyter_notebooks'
     PATHS = {
         'feature_engineering': os.path.join(BASE_PATH, 'models/movie_feature_engineering_pipeline.pkl'),
         'encoders': os.path.join(BASE_PATH, 'cleaned/encoders_and_filters.pkl'),
@@ -154,7 +154,7 @@ def page_pipeline_overview():
     if current_page == "Pipeline Overview":
         st.header("Model Performance")
         try:
-            model_eval = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/model_evaluation.pkl')
+            model_eval = load_pickle('jupyter_notebooks/outputs/models/model_evaluation.pkl')
         
             if model_eval:
                 st.info("Train Metrics")
@@ -211,7 +211,7 @@ def page_pipeline_overview():
         st.header("Data Cleaning Pipeline")
         
         try:
-            encoders_and_filters = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl')
+            encoders_and_filters = load_pickle('jupyter_notebooks/outputs/cleaned/encoders_and_filters.pkl')
             
             if encoders_and_filters:
                 tab1, tab2 = st.tabs(["Pipeline Steps", "Transformation Details"])
@@ -272,7 +272,7 @@ def page_pipeline_overview():
         st.header("Feature Engineering Pipeline")
         
         try:
-            feature_pipeline = load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl')
+            feature_pipeline = load_pickle('jupyter_notebooks/outputs/models/movie_feature_engineering_pipeline.pkl')
             
             if feature_pipeline:
                 tab1, tab2 = st.tabs(["Pipeline Components", "Detailed Metrics"])
@@ -366,10 +366,10 @@ def page_pipeline_overview():
         
         try:
             roles_data = {
-                "Actors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl'),
-                "Directors": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl'),
-                "Producers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl'),
-                "Writers": load_pickle('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl'),
+                "Actors": load_pickle('jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl'),
+                "Directors": load_pickle('jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl'),
+                "Producers": load_pickle('jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl'),
+                "Writers": load_pickle('jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl'),
             }
             
             tabs = st.tabs(list(roles_data.keys()))

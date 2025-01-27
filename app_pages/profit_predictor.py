@@ -45,25 +45,25 @@ def load_data():
         print(f"sklearn path: {sklearn.__path__}")
         
         print("\nPickle header check:")
-        path = '/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl'
+        path = 'jupyter_notebooks/outputs/engineered/feature_scaler.pkl'
         with open(path, 'rb') as f:
             header = f.read(50)
             print(f"Hex: {header.hex()}")
             print(f"ASCII: {header}")
 
         print("Loading models and data...")
-        model = joblib.load('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250126.joblib')
+        model = joblib.load('jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250126.joblib')
         transform_data = get_default_values()
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
+            with open('jupyter_notebooks/outputs/engineered/feature_scaler.pkl', 'rb') as f:
                 transform_data['feature_scaler'] = pickle.load(f)
         except Exception as e:
             print(f"Warning: Could not load feature scaler: {str(e)}")
 
         try:
             print("Loading transformation data...")
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
+            with open('jupyter_notebooks/outputs/engineered/full_transformation_data.pkl', 'rb') as f:
                 transform_data = pickle.load(f)
                 if 'feature_scaler' not in transform_data and feature_scaler:
                     transform_data['feature_scaler'] = feature_scaler
@@ -86,25 +86,25 @@ def load_data():
         top_producers = get_default_values()['top_producers']
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl', 'rb') as f:
+            with open('jupyter_notebooks/outputs/engineered/top_revenue_actors.pkl', 'rb') as f:
                 top_actors = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top actors: {str(e)}")
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl', 'rb') as f:
+            with open('jupyter_notebooks/outputs/engineered/top_revenue_directors.pkl', 'rb') as f:
                 top_directors = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top directors: {str(e)}")
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl', 'rb') as f:
+            with open('jupyter_notebooks/outputs/engineered/top_revenue_writers.pkl', 'rb') as f:
                 top_writers = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top writers: {str(e)}")
 
         try:
-            with open('/workspace/Film_Hit_prediction/jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl', 'rb') as f:
+            with open('jupyter_notebooks/outputs/engineered/top_revenue_producers.pkl', 'rb') as f:
                 top_producers = pickle.load(f)
         except Exception as e:
             print(f"Warning: Using default top producers: {str(e)}")
