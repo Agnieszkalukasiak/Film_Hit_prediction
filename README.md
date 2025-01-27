@@ -2,11 +2,11 @@
 
 ## Film Hit Prediction
 
-## ***Note to the assessment team***
-***This project is my final submission for the Full Stack Software Development diploma, where I have built a data-driven application using Streamlit. Learning everything from scratch and making this project in just six weeks — without tutor support and with misinformed and unsuportive mentorship (I will add a specific note regarding that to my submission. I consequenlt only had a mentor in my final week)—made the journey incredibly challenging. However, it has been equally rewarding to create an app that holds real value for me and my colleagues in the film industry. Exploring the data has been fascinating, revealing unexpected correlations and insights that I hadn't considered before. Although time constraints and technical limitations meant I couldn't include more complex data and processing, I am excited to continue developing this app in the future with enhanced features and deeper analysis.***
+A web application that predicts film revenue and profit prior to production using machine learning.
 
-
-You can find the deployed site here.
+## Live Demo
+The application is deployed and accessible at:
+[Film Hit Prediction](https://film-hit-prediction.onrender.com/)
 
 ## Dataset Content
 The "TMDB 5000 Movie Dataset", sourced from Kaggle, was used as the foundation for our analysis. We developed a user story tailored to the needs of 08Industries, a film investment company, where predictive analytics could be applied to support data-driven decision-making.
@@ -16,7 +16,6 @@ The dataset contains information on 5,000 films, split into two separate files. 
 ![Alt Text](./images/credits_dataset.png)
 
 ![Alt Text](./images/movies_dataset.png)
-
 
 ## Business Requirements
 
@@ -68,7 +67,6 @@ The dataset contains information on 5,000 films, split into two separate files. 
 #### User Story 10 - Deployment (BR1, BR2)
 
 * As a Software Developer, I must deploy the website to Heroku and ensure that it runs smoothly without any errors.
-
 ---
 
 ## Hypothesis and how to validate?
@@ -78,7 +76,6 @@ The dataset contains information on 5,000 films, split into two separate files. 
 * We will validate this through a thorough correlation study between revenue and the variables available before greenlighting.
 
 * We will validate the model's predictability by comparing its predictions against actual outcomes in a holdout validation set, calculating key performance metrics such as accuracy, precision, recall, and mean squared error (MSE) for regression tasks or confusion matrix analysis for classification tasks.  
-
 
 ## The rationale to map the business requirements to the Data Visualizations and ML tasks
 
@@ -118,7 +115,6 @@ For more information, please visit the "Film Success Study" notebook.
 * The dashboard contains a very simple layout. It contains 5 pages, Project Summary, Feature Correlation, Movie Revenue Predictor, Project Hypothesis and Validation and ML Revenue Prediction Pipeline.
 
 * The prediction pipeline page consists of four main sections: Pipeline Overview, Data Cleaning Pipeline, Feature Engineering Pipeline, and Cast & Crew Engineering Pipeline. Each of these sections is further broken down into multiple widgets, which help visualize and manage the different stages of the pipeline efficiently.
-
 
 ![Alt Text](./images/Summary.png)
 
@@ -191,11 +187,11 @@ See below for visual interpration of the model performance graphs on the dashboa
 
 
 ## Deployment
-### Heroku
+### Render
 
-* Create a Heroku accout if you haven't done so already.
+* Create a Render accout if you haven't done so already.
 
-* Create a new app, give it a unique name and select your region from the options provided.
+* Create a new app, give it a unique name and select your region, build command, start command and enviroment variable.
 
 * Connect to GitHub (you might be asked to confirm login through the mobile app if you have it downloaded).
 
@@ -204,10 +200,9 @@ See below for visual interpration of the model performance graphs on the dashboa
 * Deploy the project. Keep an eye on the build log if the deployment fails, this will suggest any changes that need to be made in order to deploy successfully.
 
 
-## Main Data Analysis and Machine Learning Libraries
+## Main Data Analysis and ML Libraries
 
 * Streamlit: We utilized Streamlit to develop the dashboard. Streamlit makes building applications simple and is especially beneficial for data-driven projects and machine learning models. Additionally, it's a great option for those with limited front-end development experience.
-
 
 Kaggle: This is where the dataset we used for Heritage Housing Issues was used. The link can be found above and was granted to us by Code Institute.
 
@@ -227,18 +222,21 @@ Git: This was used for version control. You can write a commit message using the
 
 * Python: The main programming language used for this project.
 
-* Visual Studio Code and OpenDyslexic Mono: Since I am dyslexic and have struggled with previous projects—where most of my time was spent searching for spelling mistakes or missing letters and numbers—I found a solution by using Visual Studio Code with the OpenDyslexic Mono font installed. This made the process much easier and more efficient.
-
 ## Credits 
 
+* Visual Studio Code and OpenDyslexic Mono: Since I am dyslexic and have struggled with previous projects—where most of my time was spent searching for spelling mistakes or missing letters and numbers—I found a solution by using Visual Studio Code with the OpenDyslexic Mono font installed. This made the process much easier and more efficient.
 
-The Churnometer walkthrough was very helpful with this project.
+* The Churnometer walkthrough was very helpful with this project.
 
-The dataset was accessed on Kaggle through Code Institute.
+* The dataset was accessed on Kaggle through Code Institute.
 
-Kay that was very helpful with my quaries and the slack community.
+* Ibm.com tutoring on jupiternotebook and regression models.
 
 
 ## Acknowledgements (optional)
+
+* Kay that was very helpful with my quaries.
+* The other students on slack community.
+* Kim from Student Care for her support in me taking a break in the middle of teh course.
 
 
