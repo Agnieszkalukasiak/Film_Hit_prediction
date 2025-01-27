@@ -33,8 +33,6 @@ def get_default_values():
         'top_producers': {'columns': ['Bruckheimer']}
     })
     return transform_data
-        
-    
 
 def load_data():
     try:
@@ -52,7 +50,7 @@ def load_data():
             print(f"ASCII: {header}")
 
         print("Loading models and data...")
-        model = joblib.load('jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250126.joblib')
+        model = joblib.load('jupyter_notebooks/outputs/models/film_revenue_model_Random Forest_20250127.joblib')
         transform_data = get_default_values()
 
         try:
