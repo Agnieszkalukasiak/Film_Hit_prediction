@@ -123,7 +123,6 @@ def load_data():
         traceback.print_exc()
         return None
 
-
 def predict_movie_revenue(budget, runtime, genres, language, production_company, 
                           production_country, actor1, actor2, crew_director, 
                           crew_writer, crew_producer, popularity=0):
