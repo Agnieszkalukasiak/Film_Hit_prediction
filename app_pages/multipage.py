@@ -5,6 +5,12 @@ class MultiPage:
         self.pages = []
         self.app_name = app_name
 
+        # Display the app name as a header
+        st.markdown(f"# {self.app_name}")
+        
+        # horizontal line after the header
+        st.markdown("---")
+
     def add_page(self, title, func) -> None: 
         self.pages.append({"title": title, "function": func })
 
