@@ -1,6 +1,12 @@
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
-## Film Hit Prediction
+### ***Note to the assessment team***
+***This project is my final submission for the Full Stack Software Development diploma, where I have built a data-driven application using Streamlit. 
+I think it's relevant to make you aware that I am on a 4.5 months timeline for the entire course (had a break in the middle of it), so had to do this project in as little as 6 weeks, that including learning the entire LM segment of the course, and I am not someone that had any kind of coding experience prior.
+
+Learning everything from scratch and making this project in such a short time — without tutor support and mentorship (I will add a specific note regarding that to my submission. I ended up only having proper mentorship in my final week and there is not any working tutor support for this segment of the course). All of this made the journey incredibly challenging. However, it has been really rewarding to create an app that holds real value for me and my colleagues in the film industry. Exploring the data has been fascinating, revealing unexpected correlations and insights that I hadn't considered before. Although time constraints and technical limitations meant I couldn't include more complex data and processing, I am excited to continue developing this app in the future with enhanced features and deeper analysis.***
+
+# Film Hit Prediction
 
 A web application that predicts film revenue and profit prior to production using machine learning.
 
