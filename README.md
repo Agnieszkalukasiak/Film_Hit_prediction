@@ -221,7 +221,7 @@ Git: This was used for version control. You can write a commit message using the
 
 ## Credits 
 
-* The dataset was accessed on Kaggle through Code Institute.
+* The dataset was accessed on Kaggle 
 
 
 
