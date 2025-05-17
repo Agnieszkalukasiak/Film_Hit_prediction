@@ -229,17 +229,8 @@ Git: This was used for version control. You can write a commit message using the
 
 * Visual Studio Code and OpenDyslexic Mono: Since I am dyslexic and have struggled with previous projects—where most of my time was spent searching for spelling mistakes or missing letters and numbers—I found a solution by using Visual Studio Code with the OpenDyslexic Mono font installed. This made the process much easier and more efficient.
 
-* The Churnometer walkthrough was very helpful with this project.
-
 * The dataset was accessed on Kaggle through Code Institute.
 
-* Ibm.com tutoring on jupiternotebook and regression models.
 
-
-## Acknowledgements (optional)
-
-* Kay that was very helpful with my quaries.
-* The other students on slack community.
-* Kim from Student Care for her support in me taking a break in the middle of teh course.
 
 
