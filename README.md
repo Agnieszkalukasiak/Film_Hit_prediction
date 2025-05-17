@@ -1,5 +1,3 @@
-# ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
-
 # Film Hit Prediction
 A web application that predicts film revenue and profit prior to production using machine learning.
 
